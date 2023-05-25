@@ -1,9 +1,49 @@
 #include <iostream>
-#include "doubleList.h"
-#include "heap.h"
+//#include "doubleList.h"
+//#include "heap.h"
+#include "chainHash.h"
 
 using namespace std;
 
+int main() {
+    ChainHash<string, int> hashTable;
+
+    // Insertar pares clave-valor
+    hashTable.set("Alice", 25);
+    hashTable.set("Bob", 30);
+    hashTable.set("Charlie", 35);
+    hashTable.set("David", 40);
+
+    // Recuperar valores
+    cout << "Alice: " << hashTable.get("Alice") << endl;
+    cout << "Bob: " << hashTable.get("Bob") << endl;
+    cout << "Charlie: " << hashTable.get("Charlie") << endl;
+    cout << "David: " << hashTable.get("David") << endl;
+
+    // Modificar valores
+    hashTable["Alice"] = 26;
+    cout << "Alice: " << hashTable.get("Alice") << endl; // Debería imprimir 26
+
+    // Eliminar una entrada
+    hashTable.remove("David");
+
+    // Intentar recuperar un valor después de eliminarlo debe lanzar una excepción
+    try {
+        cout << "David: " << hashTable.get("David") << endl;
+    } catch(const std::out_of_range& e) {
+        cout << e.what() << endl; // Debería imprimir "La clave no existe en la tabla hash"
+    }
+
+    // Mostrar el tamaño de las cubetas
+    for(int i = 0; i < hashTable.bucket_count(); i++) {
+        cout << "Bucket " << i << " size: " << hashTable.bucket_size(i) << endl;
+    }
+
+    return 0;
+}
+
+
+/*
 // Test Heap
 int main() {
     // Crear un arreglo de elementos
@@ -39,7 +79,7 @@ int main() {
 
     return 0;
 }
-
+*/
 
 /*
 // Test para doublelist
@@ -101,5 +141,4 @@ int main() {
 
     return 0;
 }
-
 */
