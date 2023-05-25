@@ -1,11 +1,11 @@
 <h1 align="center">BlockChain05</h1>
 
 ## Integrantes
-###Integrante1: Tovar Tolentino, Mariel
-###Integrante2: Isidro Salazar, Leonardo
-###Integrante3: Huarino Anchillo, Noemi
-###Integrante4: Sandoval Huamani, Adrian
-###Integrante5: Chavarria Humareda, Omar
+### Integrante1: Tovar Tolentino, Mariel
+### Integrante2: Isidro Salazar, Leonardo
+### Integrante3: Huarino Anchillo, Noemi
+### Integrante4: Sandoval Huamani, Adrian
+### Integrante5: Chavarria Humareda, Omar
 
 <a name="readme-top"></a>
 <details open>
