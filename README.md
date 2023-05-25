@@ -1,6 +1,11 @@
 <h1 align="center">BlockChain05</h1>
 
 ## Integrantes
+### Integrante1: Tovar Tolentino, Mariel
+### Integrante2: Isidro Salazar, Leonardo
+### Integrante3: Huarino Anchillo, Noemi
+### Integrante4: Sandoval Huamani, Adrian
+### Integrante5: Chavarria Humareda, Omar
 
 <a name="readme-top"></a>
 <details open>
@@ -40,18 +45,36 @@
 ## Acerca del proyecto
 
 ### Introducción
+¿Qué es BlockChain?
+Es una cadena de bloques descentralizada de registro de datos que utiliza una red de nodos para almacenar y validar transacciones de forma transparente y segura, lo que permite la creación de registros inmutables y confiables.
+
+![](utils/BlockChain.avif)
+
+¿Qué es SHA-256? (Secure Hash Algorithm 256-bit)
+Es un algoritmo de hash criptográfico ampliamente utilizado que produce una huella digital de 256 bits(32 bytes) única para cualquier dato dado, lo que garantiza la integridad y seguridad de la información. Ofrece un mayor nivel de seguridad que MD5 y SHA-1 (versiones anteriores) y se considera seguro para su uso en la mayoría de los casos.
+
+![](utils/SHA-256.png)
 
 ### Descripción
+El dominio transaccional que hemos escogido es : Retiros de dinero (cliente, lugar, monto, fecha). 
 
 ### Importancia del Blockchain
+-
 
 <hr>
 
 ## Funcionalidad de la aplicación
+-
 
 ### Estructuras de datos
 
+![](utils/Heap_min_max.png)
+
+- Heap:
+La hemos implementado para usar el maxHeap para el máximo valor y el minHeap para el mínimo valor de los datos ingresados.
+
 ### Proof of Work
+Es un algoritmo de consenso permite verificar si quien contribuye al blockchain lo hace de forma legítima o está incurriendo en fraude. Permite la verificación, evitar ataques mediante el 51% y cualquier mecanismo que permita mantener al correcto crecimiento del blockchain.
 
 ### Análisis algorítmico
 
@@ -87,6 +110,8 @@
 <hr>
 
 ## Referencias bibliográficas
+
+Moreno, M. V. (2022). Blockchain y algoritmo de consenso Proof of Work. *MoleQla: revista de Ciencias de la Universidad Pablo de Olavide, (46), 14.* https://dialnet.unirioja.es/servlet/articulo?codigo=8651237
 
 <hr>
 
