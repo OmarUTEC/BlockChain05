@@ -2,7 +2,6 @@
 
 ## Integrantes
 
-
 <a name="readme-top"></a>
 <details open>
   <summary><h3>Tabla de contenidos:<h3></summary>
@@ -68,24 +67,18 @@
 
 - Compilador g++ de [MinGW-w64](https://www.mingw-w64.org/downloads/).
 - Bibioteca [SFML](https://www.sfml-dev.org/download/sfml/2.5.1/) desde la versión 2.4 o 2.5.
-- [Make](https://gnuwin32.sourceforge.net/packages/make.htm) para Windows o Linux. (opción 1)
-- IDE [CodeBlocks](https://www.codeblocks.org/downloads/) (opción 2).
+- [Make](https://gnuwin32.sourceforge.net/packages/make.htm) para Windows.
  
-### Configuración de variables
-
 ### ¿Cómo se ejecuta?
 
-- #### Opción 1
-  
-  Inicia la aplicación con un simple comando en el path del proyecto: 
+1. Agregar el directorio `C:\SFML-2.5.x` en las variables del sistema.
+2. Agregar el directorio `C:\Program Files (x86)\GnuWin32\bin` en las variables del sistema. 
+3. Inicia la aplicación con el archivo: 
 
 ```bash
-make run
+./auto.bat
 ```
 
-- #### Opción 2
-
-  Abrir nuestro proyecto en CodeBlocks.
 
 <hr>
 
