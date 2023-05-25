@@ -23,7 +23,6 @@
       Funcionalidad de la aplicación
       <ul>
         <li><a href="#estructuras-de-datos">Estructuras de datos</a></li>
-        !()
         <li><a href="#proof-of-work">Proof of work</a></li>
         <li><a href="#análisis-algorítmico">Análisis algorítmico</a></li>
         <li><a href="#interfaz-gráfica">Interfaz gráfica</a></li>
@@ -54,9 +53,7 @@ Es una cadena de bloques descentralizada de registro de datos que utiliza una re
 ¿Qué es SHA-256? (Secure Hash Algorithm 256-bit)
 Es un algoritmo de hash criptográfico ampliamente utilizado que produce una huella digital de 256 bits(32 bytes) única para cualquier dato dado, lo que garantiza la integridad y seguridad de la información. Ofrece un mayor nivel de seguridad que MD5 y SHA-1 (versiones anteriores) y se considera seguro para su uso en la mayoría de los casos.
 
-<center>
 ![](SHA-256.png)
-<center/>
 
 ### Descripción
 El dominio transaccional que hemos escogido es : Retiros de dinero (cliente, lugar, monto, fecha). 
@@ -70,10 +67,8 @@ El dominio transaccional que hemos escogido es : Retiros de dinero (cliente, lug
 -
 
 ### Estructuras de datos
-Insertar imagen:
-<center>
+
 ![](Heap_min_max.png)
-<center/>
 
 - Heap:
 La hemos implementado para usar el maxHeap para el máximo valor y el minHeap para el mínimo valor de los datos ingresados.
