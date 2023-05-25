@@ -1,6 +1,5 @@
 cmake-build-debug
 cmake-build-release
 build
-gui/*/
-gui/main.cpp
-gui/arial.ttf
+obj
+bin

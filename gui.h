@@ -13,7 +13,7 @@ public:
 
     void init_visualize_app() {
         Font font;
-        if (!font.loadFromFile("../assets/arial.ttf"))
+        if (!font.loadFromFile("./assets/arial.ttf"))
             throw "Don't load font...";
 
         Text text;
