@@ -49,8 +49,14 @@
 ¿Qué es BlockChain?
 Es una cadena de bloques descentralizada de registro de datos que utiliza una red de nodos para almacenar y validar transacciones de forma transparente y segura, lo que permite la creación de registros inmutables y confiables.
 
+-
+
 ¿Qué es SHA-256? (Secure Hash Algorithm 256-bit)
 Es un algoritmo de hash criptográfico ampliamente utilizado que produce una huella digital de 256 bits(32 bytes) única para cualquier dato dado, lo que garantiza la integridad y seguridad de la información. Ofrece un mayor nivel de seguridad que MD5 y SHA-1 (versiones anteriores) y se considera seguro para su uso en la mayoría de los casos.
+
+<center>
+![](SHA-256.png)
+<center/>
 
 ### Descripción
 El dominio transaccional que hemos escogido es : Retiros de dinero (cliente, lugar, monto, fecha). 
