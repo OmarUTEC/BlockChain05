@@ -3,7 +3,7 @@ cmake-build-release
 build
 obj
 bin
-gui.cbp
+gui.cbps
 gui.depend
 gui.layout
 main.obj
