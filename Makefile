@@ -8,3 +8,6 @@ main.o: main.cpp
 
 clean:
 	rm -f main.o app.exe
+
+run: app.exe
+	.\app.exe
