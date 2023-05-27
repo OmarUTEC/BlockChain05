@@ -1,6 +1,6 @@
 #include <iostream>
 #include "structures/heap.h"
-#include "gui.h"
+#include "interface/gui.h"
 
 using namespace std;
 

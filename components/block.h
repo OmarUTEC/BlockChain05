@@ -1,0 +1,4 @@
+#ifndef BLOCK_COMPONENT_H
+#define BLOCK_COMPONENT_H
+
+#endif // BLOCK_COMPONENT_H

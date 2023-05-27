@@ -3,8 +3,9 @@ cmake-build-release
 build
 obj
 bin
-gui.cbps
-gui.depend
-gui.layout
-main.obj
-app.exe
+*.cbp
+*.depend
+*.layout
+*.o
+*.obj
+*.exe
