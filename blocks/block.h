@@ -21,6 +21,7 @@ struct Block {
     int index;                          // Índice del bloque en la cadena
     std::string timestamp;              // Marca de tiempo en la que se crea el bloque
     DoubleList<Transaction*>* data = new DoubleList<Transaction*>;
+    ChainHash<string,Transaction*> data_hash;
     std::string previousHash;           // Hash del bloque anterior en la cadena
     std::string hash;                   // Hash del bloque actual
     int nonce = 0;                      // Número utilizado en la Prueba de Trabajo
@@ -31,7 +32,7 @@ struct Block {
 
     Block(int idx, string prevHash) {
         this->index = idx;
-        this->timestamp =to_string(time(0));
+        this->timestamp = to_string(time(0));
         this->previousHash = prevHash;
         this->hash = calculateHash();
         mineBlock();
