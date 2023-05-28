@@ -78,7 +78,8 @@ void BlockChain::createUser(const string &username, const string &password){
 }
 
 bool BlockChain::searchUser(const string &username, const string &password){
-    
+    string hash = username + password;
+    return usersHash.search(hash);
 }
 
 void BlockChain::setTransaction(const string &username, const string &password, const string &place, float amount, const string &date){
