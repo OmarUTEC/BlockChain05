@@ -57,6 +57,12 @@ BlockChain::BlockChain(const string &users,const string &transacciones){
     file->close();
 }
 
+
+void init_blockchain() {
+
+}
+
+
 void BlockChain::createUser(const string &username, const string &password){
     string hash = username + password;
     if(chain.is_empty()){
@@ -146,6 +152,20 @@ void BlockChain::cascade(const string &username, const string &password){
     loadFile(&transactions);
 }
 
-static void loadFile(DoubleList<Transaction*>* doubleList, const std::string& path = "./assets/data/datos.txt"){
-    
+static void loadFile(DoubleList<Transaction*>* doubleList, const std::string& path = "./assets/data/datos.txt") {
+    std::ifstream file(path);
+    if (!file.is_open()) {
+        std::cerr << "No se pudo abrir el archivo: " << path << std::endl;
+        return;
+    }
+
+    std::string line;
+    while (std::getline(file, line)) {
+        // Suponiendo que cada línea del archivo contiene los datos de una transacción
+        // y que tienes un constructor de Transaction que acepta una cadena de texto con los datos
+        Transaction* transaction = new Transaction(line);
+        doubleList->addBack(transaction);
+    }
+
+    file.close();
 }

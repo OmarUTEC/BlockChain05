@@ -51,14 +51,14 @@ struct Block {
     }
 
     
-    void insert(Transaction* transaction);
+    void insert(Transaction* transaction) {
 
-    void importFromList(string csvFile);
+    }
 
-    // usando la estructura de ChainHash se busca la transaccion
-    bool search(Transaction* transaction);
+    bool search(Transaction* transaction) {
 
-    
+    }
+
 
     std::string calculateHash() {
         std::stringstream ss;
@@ -73,7 +73,7 @@ struct Block {
             hashStream << std::hex << (int)hash[i];
         }
 
-        return hashStream.str();
+        return hashStream.str()
     }
 
 
@@ -140,17 +140,6 @@ Heap<Transaction *, MAX_HEAP> maxFecha() {
     // Calcula el hash del bloque actual y se compara con el hash objetivo
     // Si el hash actual no es igual al hash objetivo, se incrementa el nonce
     // -→ Prueba de Trabajo (Proof of Work)
-    
-    void insert(){
-
-        
-
-    }
-    
-    bool search(){
-        
-
-    }
 
     void mineBlock() {
         std::string target(DIFFICULTY, '0');
@@ -169,8 +158,6 @@ Heap<Transaction *, MAX_HEAP> maxFecha() {
         std::cout << "Hash: " << block.hash << std::endl;
         std::cout << std::endl;
     }
-
-    
 };
 
 #endif // BLOCK_COMPONENT_H
