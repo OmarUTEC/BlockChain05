@@ -4,14 +4,11 @@
 
 using namespace std;
 
-template <typename T>
+const enum Type { MAX_HEAP, MIN_HEAP };
+
+template <typename T, enum Type>
 class Heap
 {
-public:
-    enum Type {
-        MAX_HEAP, MIN_HEAP
-    };
-
 private:
     T *elements;
     int capacity;//capacidad maxima del arbol
@@ -22,40 +19,27 @@ public:
     Heap(T *elements, int n, Type type=MAX_HEAP) : elements(elements), n(n), type(type)
     {
         buildFromArray(elements, n);
-        //throw ("Function not implemented");
     }
 
     Heap(int capacity, Type type=MAX_HEAP) : capacity(capacity), type(type)
     {
         this->elements = new T[capacity];
         this->n = 0;
-        //throw ("Function not implemented");
     }
 
     ~Heap(){ 
-        //delete [] this->elements;
-        //throw ("Function not implemented");          
+        delete [] this->elements;
     }
 
-    /*void buildFromArray(T *elements, int n){
-     
-        this->n = n;
-        for (int i = n / 2 - 1; i >= 0; i--)
-            heapify_down(i);
-        throw ("Function not implemented");
-
-    }*/
     void buildFromArray(T *elements, int n){
     for (int i = 0; i < n; i++){
         push(elements[i]);
         }  
-        //throw ("Function not implemented");
     }
 
     int size()
     {
         return n;
-        //throw ("Function not implemented");
     }
 
     bool is_empty()
@@ -67,7 +51,6 @@ public:
         else{
             return false;
         }
-        //throw ("Function not implemented");
     }
 
     void push(T value)
@@ -91,7 +74,6 @@ public:
             heapify_up(n);
             n++;
         }
-        //throw ("Function not implemented");
     }
 
     T pop()
@@ -102,14 +84,12 @@ public:
             n--;
             heapify_down(0);
             return aux;
-        //throw ("Function not implemented");
     }
 
     T top()
     {
         //devuelve el elemento de la raiz
         return elements[0];
-        //throw ("Function not implemented");
     }
 
     vector<T> extractTheTopK(int k){
@@ -132,10 +112,9 @@ public:
             }
         }
         return topk;
-        //throw ("Function not implemented"); 
     }
 
-         static void sortAsc(T* arr, int n){
+    static void sortAsc(T* arr, int n){
         // Construimos un Max Heap
         for (int i = n / 2 - 1; i >= 0; i--)
             heapify(arr, n, i);
@@ -145,8 +124,8 @@ public:
             swap(arr[0], arr[i]);  // Movemos el elemento máximo al final
             heapify(arr, i, 0);    // Ajustamos el subárbol reducido
         }
-       //throw ("Function not implemented"); 
     }
+    
     //Funcion auxiliar para sortAsc
     static void heapify(T* arr, int n, int i) {
         int largest = i;        // Inicializamos el nodo raíz como el más grande
@@ -203,7 +182,6 @@ public:
             // Aplicar minheapify al subárbol reducido
             minheapify(arr, i, 0);
         }
-       //throw ("Function not implemented"); 
     }
 
 
