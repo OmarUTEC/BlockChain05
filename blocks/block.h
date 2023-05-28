@@ -169,7 +169,7 @@ Heap<Transaction *, MAX_HEAP> maxFecha() {
         std::cout << std::endl;
     }
 
-    bool isEmpty(){}
+    
 };
 
 #endif // BLOCK_COMPONENT_H
