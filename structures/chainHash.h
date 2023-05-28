@@ -54,6 +54,14 @@ public:
         throw std::out_of_range("La clave no existe en la tabla hash");
     };
 
+    bool search(TK key){
+        try{
+            get(key)
+            return(true)
+        }
+        return(false)
+    }
+
     void remove(TK key){
         size_t hashcode = getHashCode(key);
         int index = hashcode % capacity;

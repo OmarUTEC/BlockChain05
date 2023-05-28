@@ -18,6 +18,7 @@ public:
     ~Transaction() = default;
 
     Transaction(const string& client,const string& place,const string& date, float amount);
+    friend ostream &operator<<(ostream &os,const Transaction & t);
     
    
     // Función que imprime la transacción en consola.
@@ -44,6 +45,13 @@ Transaction::Transaction(const string& client, const string& place, const string
         this->date = date;
         this->amount = amount;
     }
+ostream &operator<<(ostream &os,const Transaction & t){
+    std::time_t unixTimestamp(std::stol(t.date));
+    std::string date = std::asctime(std::localtime(&unixTimestamp));
+
+    os << "(" << t.client << " , " << t.date << ", " << t.amount << ", " << date.substr(0, 24) << ")";
+    return os;
+}  
 
 
 #endif // TRANSATION_COMPONENT_H

@@ -237,6 +237,14 @@ public:
     std::string name() {
         return "DoubleList";
     }
+
+    Node<T> *begin() {
+        return head;
+    }
+
+    Node<T> *end() {
+        return tail;
+    }
 };
 
 #endif

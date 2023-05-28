@@ -6,7 +6,7 @@
 #include <ctime>
 #include <sstream>
 #include <string>
-#include <openssl/sha.h>
+//#include <openssl/sha.h>
 #include "../structures/heap.h"
 #include "../structures/doubleList.h"
 #include "../structures/chainHash.h"
@@ -29,9 +29,9 @@ struct Block {
 
     Block() = default;
 
-    Block(int idx, std::string timestamp, std::string prevHash) {
+    Block(int idx, string prevHash) {
         this->index = idx;
-        this->timestamp = timestamp;
+        this->timestamp =to_string(time(0));
         this->previousHash = prevHash;
         this->hash = calculateHash();
         mineBlock();
