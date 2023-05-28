@@ -4,6 +4,7 @@
 #include <sstream>
 #include "block.h"
 #include "../structures/node.h"
+#include "../structures/doubleList.h"
 
 using namespace std;
 
@@ -22,7 +23,7 @@ public:
   bool searchUser(const string &username, const string &password); //Leo
   void setTransaction(const string &username, const string &password, const string &place, float amount, const string &date); //Leo
   bool searchData(const string &username, const string &password, const string &place, float amount, const string &date); //Leo
-  void myTxs(const std::string &username, const std::string &password); //Noemi
+  void theTransactions(const std::string &username, const std::string &password); //Noemi
   void date(const std::string &username, const std::string &password); //Noemi
   void Amount(const std::string &username, const std::string &password); //Noemi
   void MaxDate(const std::string &username, const std::string &password); //Noemi
@@ -95,6 +96,32 @@ bool BlockChain::searchData(const string &username, const string &password, cons
     key << *(transaccion);
     return usersHash.get(hash)->data->data_hash.search(key.str());
 }
+
+void BlockChain::theTransactions(const std::string &username, const std::string &password){
+    string hash = username + password;
+    DoubleList<Transaction *> transactions = this->usersHash.get(hash)->data->data;
+    loadFile(&transactions);
+}
+
+void BlockChain::date(const std::string &username, const std::string &password){
+    string hash = username + password;
+    DoubleList<Transaction *> transactions = this->usersHash.get(hash)->data;
+    loadFile(&transactions);
+}
+
+void BlockChain::Amount(const std::string &username, const std::string &password){
+    string hash = username + password;
+    DoubleList<Transaction *> transactions = this->usersHash.get(hash)->data;
+    loadFile(&transactions);
+}
+
+void BlockChain::MaxDate(const std::string &username, const std::string &password){
+    string hash = username + password;
+    DoubleList<Transaction *> transactions = this->usersHash.get(hash)->maxFecha;
+    loadFile(&transactions);
+
+}
+
 
 void BlockChain::cascade(const string &username, const string &password){
     stringstream user;
