@@ -20,8 +20,7 @@ const int DIFFICULTY = 4;       // Número de ceros iniciales requeridos en el h
 struct Block {
     int index;                          // Índice del bloque en la cadena
     std::string timestamp;              // Marca de tiempo en la que se crea el bloque
-    DoubleList<Transaction*>* info      // lista de transacciones dentro del bloque
-        = new DoubleList<Transaction*>;
+    DoubleList<Transaction*>* data = new DoubleList<Transaction*>;
     std::string previousHash;           // Hash del bloque anterior en la cadena
     std::string hash;                   // Hash del bloque actual
     int nonce = 0;                      // Número utilizado en la Prueba de Trabajo
@@ -30,7 +29,7 @@ struct Block {
 
     Block() = default;
 
-    Block(int idx, std::string timestamp, std::string info, std::string prevHash) {
+    Block(int idx, std::string timestamp, std::string prevHash) {
         this->index = idx;
         this->timestamp = timestamp;
         this->previousHash = prevHash;
@@ -41,7 +40,7 @@ struct Block {
     Block(const Block &other) {
         this->index = other.index;
         this->nonce = other.nonce;
-        this->info = other.info;
+        this->data = other.data;
         // this->maxFecha = other.maxFecha;
         // this->minFecha = other.minFecha;
         // this->maxMonto = other.maxMonto;
@@ -169,6 +168,8 @@ Heap<Transaction *, MAX_HEAP> maxFecha() {
         std::cout << "Hash: " << block.hash << std::endl;
         std::cout << std::endl;
     }
+
+    bool isEmpty(){}
 };
 
 #endif // BLOCK_COMPONENT_H

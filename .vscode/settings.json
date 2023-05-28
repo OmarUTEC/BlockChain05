@@ -26,6 +26,7 @@
         "initializer_list": "cpp",
         "utility": "cpp",
         "tuple": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "ostream": "cpp"
     }
 }
