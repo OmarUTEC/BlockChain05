@@ -122,9 +122,30 @@ void BlockChain::MaxDate(const std::string &username, const std::string &passwor
 
 }
 
+void BlockChain::MinDate(const std::string &username, const std::string &password){
+    string hash = username + password;
+    DoubleList<Transaction *> transactions = this->usersHash.get(hash)->minFecha;
+    loadFile(&transactions);
+}
+
+void BlockChain::MaxAmount(const std::string &username, const std::string &password){
+    string hash = username + password;
+    DoubleList<Transaction *> transactions = this->usersHash.get(hash)->maxMonto;
+    loadFile(&transactions);
+}
+
+void BlockChain::MinAmount(const std::string &username, const std::string &password){
+    string hash = username + password;
+    DoubleList<Transaction *> transactions = this->usersHash.get(hash)->minMonto;
+    loadFile(&transactions);
+}
 
 void BlockChain::cascade(const string &username, const string &password){
-    stringstream user;
-    user << username;
-    user << password;
+    string hash = username + password;
+    DoubleList<Transaction *> transactions = this->usersHash.get(hash)->data;
+    loadFile(&transactions);
+}
+
+static void loadFile(DoubleList<Transaction*>* doubleList, const std::string& path = "./assets/data/datos.txt"){
+    
 }

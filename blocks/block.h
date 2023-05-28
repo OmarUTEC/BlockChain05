@@ -6,7 +6,7 @@
 #include <ctime>
 #include <sstream>
 #include <string>
-//#include <openssl/sha.h>
+#include <openssl/sha.h>
 #include "../structures/heap.h"
 #include "../structures/doubleList.h"
 #include "../structures/chainHash.h"
