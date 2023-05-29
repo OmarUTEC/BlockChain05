@@ -3,7 +3,7 @@ using namespace std;
 
 const int maxColision = 3;
 const float maxFillFactor = 0.5;
-const unsigned int PRIME_CONST = 31;
+const unsigned int PRIMECONST = 31;
 const int capacityDEF = 10;
 
 template<typename TK, typename TV>
@@ -26,6 +26,7 @@ private:
         }
     };
 
+private:
     HashEntry** buckets;
     int capacity;              //tamanio del buckets
     int size = 0;              //cantidad de elementos totales
@@ -49,21 +50,24 @@ public:
 
         // algoritmo Rolling polynomial
         for (int i = 0; i < strkey.size(); i++) {
-            sum += (strkey[i] * (int)pow(PRIME_CONST, i)) % capacity;
+            sum += (strkey[i] * (int)pow(PRIMECONST, i)) % capacity;
         }
 
         return sum % capacity;
     }
 
-	void set(TK key, TV value){
-		size_t index = hashFunction(key);
+    void set(TK key, TV value){
+        size_t index = hashFunction(key);
         HashEntry* entry = new HashEntry(key, value);
 
         if (buckets[index] != nullptr) {
             HashEntry* current = buckets[index];
-            while (current->next != nullptr)
+            while (current->next != nullptr) {
+                // si ya existe el key, se finaliza
+                if (current->key == key)   return;
+                
                 current = current->next;
-            
+            }
             current->next = entry;
         } else
             buckets[index] = entry;
@@ -85,7 +89,7 @@ public:
 
     bool search(TK key) {
         try{
-            get(key);   return true;
+            TV bound = get(key);   return true;
         } catch {
             return false;
         }
@@ -106,19 +110,24 @@ public:
     };
 
 private:
-    double fillFactor(){
+    double fillFactor() const {
         return static_cast<double>(size) / (capacity * maxColision);
     }
 
     void rehashing(){
         // Aumentar la capacidad del arreglo original
         int newCapacity = capacity * 2;
-        HashEntry** newbuckets = new HashEntry*[newCapacity];
+        HashEntry** newbuckets = buckets;
 
         // Insertar todos los elementos del arreglo original en el nuevo arreglo
-        for (int i = 0; i < capacity; ++i) {
-            if (buckets[i] != nullptr)
-                newbuckets->get(buckets[i]->key, buckets[i]->value)
+        for (HashEntry* entry : buckets) {
+            HashEntry* nextEntry = entry;
+            while (entry != nullptr) {
+                entry = entry->next;
+                set(entry->key, entry->value);  // Llamada al método insert() de la tabla hash
+            }
+            delete entry;
+            entry = nextEntry;
         }
 
         // Actualizar los campos de la clase con los nuevos valores

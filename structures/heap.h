@@ -1,105 +1,95 @@
 #include <iostream>
-#include "doubleList.h"
 #include <stdexcept>
 
 using namespace std;
 
-const enum Type { MAX_HEAP, MIN_HEAP };
-
 // template <typename T, enum Type>
-template <typename T, Type heapType>
-class Heap
-{
+template <typename T>
+class Heap {
+public:
+    enum Type { MAX_HEAP, MIN_HEAP };
+
 private:
-    T *elements;
-    int capacity;//capacidad maxima del arbol
-    int n;//cantidad de elementos en el arbol
+    T *array;
+    int capacity;   //capacidad maxima del arbol
+    int elements;   //cantidad de elementos en el arbol
     Type type;
 
 public:
     Heap() = default;
-    Heap(T *elements, int n, Type type=MAX_HEAP) : elements(elements), n(n), type(type)
-    {
-        buildFromArray(elements, n);
+    Heap(T *array, int elem, Type type = MAX_HEAP) : elements(elem), capacity(elem), type(type) {
+        buildFromArray(array, elem);
     }
 
-    Heap(int capacity, Type type=MAX_HEAP) : capacity(capacity), type(type)
-    {
-        this->elements = new T[capacity];
-        this->n = 0;
+    Heap(int capacity, Type type = MAX_HEAP) : elements(0), capacity(capacity), type(type) {
+        this->array = new T[capacity];
     }
 
     ~Heap(){ 
-        delete [] this->elements;
+        delete [] this->array;
     }
 
-    void buildFromArray(T *elements, int n){
-    for (int i = 0; i < n; i++){
-        push(elements[i]);
+    void buildFromArray(T *array, int n){
+        for (int i = 0; i < n; i++){
+            push(array[i]);
         }  
     }
 
-    int size()
-    {
-        return n;
+    int size() {
+        return elements;
     }
 
-    bool is_empty()
-    {
+    bool is_empty() {
         //verificar si el arbol esta vacio
-        if (n == 0){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return (elements == 0);
     }
 
-    void push(T value)
-    {
-        // agregar un elemento al arbol
-        if (n < capacity){
-            elements[n] = value;
-            heapify_up(n);
-            n++;
-        }
-        else if (n == capacity){
+    void push(T value) {
+        if (elements == capacity){
             //Redimensionamos:
-            T *arr2 = new T[capacity*2];
-            for (int i = 0; i < capacity; i++){
-                arr2[i] = elements[i];
-            }
-            delete [] elements;
-            elements = arr2;
-            capacity = capacity*2;
-            elements[n] = value;
-            heapify_up(n);
-            n++;
+            resize(capacity*2);
         }
+        array[elements] = value;
+        heapify_up(elements);
+        elements++;
     }
 
-    T pop()
-    {
+    void resize(int capacity) {
+        if (capacity == this->capacity)   return;
+
+        T *new_arr = new T[capacity];
+        for (int i = 0; i < (capacity<this->capacity)? capacity : this->capacity; i++){
+            new_arr[i] = array[i];
+        }
+        delete [] array;
+        array = new_arr;
+        this->capacity = capacity;
+    }
+
+    T pop() {
         // eliminar un elemento del arbol
-            T aux = elements[0];
-            elements[0] = elements[n-1];
-            n--;
-            heapify_down(0);
-            return aux;
+        T aux = array[0];
+        array[0] = array[--elements];
+        resize(elements);
+        heapify_down(0);
+        return aux;
     }
 
-    T top()
-    {
+    T top() {
         //devuelve el elemento de la raiz
-        return elements[0];
+        return array[0];
     }
 
-    vector<T> extractTheTopK(int k){
+    T back() {
+        return array[elements-1];
+    }
+
+    /*vector<T> extractTheTopK(int k){
         //devuelve un vector con los k elementos mas grandes o mas pequeños,
         // dependiendo del tipo de heap
         vector<T> topk;
-        if (k > n){//no se puede extraer mas elementos de los que hay
-            throw runtime_error("The heap has less elements than k");
+        if (k > elements){//no se puede extraer mas elementos de los que hay
+            throw runtime_error("The heap has less array than k");
         }
         else{
             if (type == MAX_HEAP){
@@ -114,7 +104,7 @@ public:
             }
         }
         return topk;
-    }
+    }*/
 
     static void sortAsc(T* arr, int n){
         // Construimos un Max Heap
@@ -146,8 +136,23 @@ public:
         if (largest != i) {
             swap(arr[i], arr[largest]);
             heapify(arr, n, largest);
+        }
+    }        
+
+    T* getArray() {
+        return array;
     }
-}        
+
+    void print(int index = 0) {
+        if (index >= elements)
+            return;
+        
+        cout << "( ";
+        print(2 * index + 1); cout << " <- ";
+        cout << array[index]; cout << " -> ";
+        print(2 * index + 2); cout << " ) ";
+    }
+
     static void minheapify(T* arr, int n, int i) {
         int smallest = i;     // Inicializar el índice más pequeño como la raíz
         int left = 2 * i + 1; // Índice del hijo izquierdo
@@ -188,57 +193,52 @@ public:
 
 
 private:
-    int Parent(int i)
-    {
+    int Parent(int i) {
         return (i - 1) / 2;
     }
 
-    int Left(int i)
-    {
+    int Left(int i) {
         return (2 * i + 1);
     }
 
-    int Right(int i)
-    {
+    int Right(int i) {
         return (2 * i + 2);
     }
 
-    void heapify_down(int i)
-    {
+    void heapify_down(int i) {
         if (type == MAX_HEAP){
-            if (elements[Left(i)] > elements[i] && elements[Left(i)]>=elements[Right(i)] && Left(i) < n){
-                swap(elements[Left(i)], elements[i]);
+            if (array[Left(i)] > array[i] && array[Left(i)]>=array[Right(i)] && Left(i) < elements){
+                swap(array[Left(i)], array[i]);
                 heapify_down(Left(i));
             }
-            if (elements[Right(i)] > elements[i] && elements[Right(i)]>=elements[Left(i)] && Right(i) < n){
-                swap(elements[Right(i)], elements[i]);
+            if (array[Right(i)] > array[i] && array[Right(i)]>=array[Left(i)] && Right(i) < elements){
+                swap(array[Right(i)], array[i]);
                 heapify_down(Right(i));
             }
         }
         else{
-            if (elements[Left(i)] < elements[i] && elements[Left(i)]<=elements[Right(i)] && Left(i) < n){
-                swap(elements[Left(i)], elements[i]);
+            if (array[Left(i)] < array[i] && array[Left(i)]<=array[Right(i)] && Left(i) < elements){
+                swap(array[Left(i)], array[i]);
                 heapify_down(Left(i));
             }
-            if (elements[Right(i)] < elements[i] && elements[Right(i)]<=elements[Left(i)] && Right(i) < n){
-                swap(elements[Right(i)], elements[i]);
+            if (array[Right(i)] < array[i] && array[Right(i)]<=array[Left(i)] && Right(i) < elements){
+                swap(array[Right(i)], array[i]);
                 heapify_down(Right(i));
             }
         }
        //throw ("Function not implemented"); 
     }
 
-    void heapify_up(int i)
-    { 
+    void heapify_up(int i) { 
         if (type == MAX_HEAP){
-            if (elements[Parent(i)] < elements[i] && i > 0){
-                swap(elements[Parent(i)], elements[i]);
+            if (array[Parent(i)] < array[i] && i > 0){
+                swap(array[Parent(i)], array[i]);
                 heapify_up(Parent(i));
             }
         }
         else{
-            if (elements[Parent(i)] > elements[i] && i > 0){
-                swap(elements[Parent(i)], elements[i]);
+            if (array[Parent(i)] > array[i] && i > 0){
+                swap(array[Parent(i)], array[i]);
                 heapify_up(Parent(i));
             }
         }

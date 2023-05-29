@@ -69,7 +69,7 @@ public:
         }
         T data = head->data;
         if (head->next == nullptr)
-            head == tail == nullptr
+            head == tail == nullptr;
 
         else {
             head = head->next;
@@ -86,7 +86,7 @@ public:
         }
         T data = tail->data;
         if (tail->prev == nullptr)
-            head == tail == nullptr
+            head == tail == nullptr;
 
         else {
             tail = tail->prev;

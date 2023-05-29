@@ -1,11 +1,11 @@
 #include <iostream>
 //#include "doubleList.h"
-//#include "heap.h"
-#include "chainHash.h"
+#include "heap.h"
+// #include "chainHash.h"
 
 using namespace std;
 
-int main() {
+/*int main() {
     ChainHash<string, int> hashTable;
 
     // Insertar pares clave-valor
@@ -40,47 +40,35 @@ int main() {
     }
 
     return 0;
-}
+}*/
 
 
-
-/*
 // Test Heap
 int main() {
-    // Crear un arreglo de elementos
-    int arr[] = {5, 2, 8, 1, 10, 3};
-
     // Crear un objeto Heap con el arreglo
-    Heap<int> heap(arr, sizeof(arr) / sizeof(arr[0]));
+    Heap<int> heap(6, Heap<int>::MAX_HEAP);
+
+    // Insertar un nuevo elemento en el Heap
+    heap.push(7);
+    heap.push(5);
+    heap.push(1);
+    heap.push(9);
+    heap.push(34);
+    heap.push(12);
+    
+    heap.print();
+
 
     // Imprimir el tamaño del Heap
-    std::cout << "Tamaño del Heap: " << heap.size() << std::endl;
+    std::cout << "\nTamaño del Heap: " << heap.size() << std::endl;
 
     // Imprimir el elemento superior del Heap
     std::cout << "Elemento superior del Heap: " << heap.top() << std::endl;
 
-    // Insertar un nuevo elemento en el Heap
-    heap.push(7);
-
-    // Extraer y mostrar los 3 elementos principales del Heap
-    std::cout << "Los 3 elementos principales del Heap: ";
-    std::vector<int> top3 = heap.extractTheTopK(3);
-    for (int num : top3) {
-        std::cout << num << " ";
-    }
     std::cout << std::endl;
-
-    // Ordenar el arreglo en orden ascendente utilizando Heap
-    Heap<int>::sortAsc(arr, sizeof(arr) / sizeof(arr[0]));
-    std::cout << "Arreglo ordenado en orden ascendente: ";
-    for (int num : arr) {
-        std::cout << num << " ";
-    }
-    std::cout << std::endl;
-
     return 0;
 }
-*/
+
 
 /*
 // Test para doublelist

@@ -11,8 +11,6 @@ struct Transaction {
     string place;
     float amount;
     string date;
-
-public:
     
     Transaction() = default;
     ~Transaction() = default;

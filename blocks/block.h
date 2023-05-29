@@ -20,8 +20,12 @@ const int DIFFICULTY = 4;       // Número de ceros iniciales requeridos en el h
 class Block {
     int index;                          // Índice del bloque en la cadena
     std::string timestamp;              // Marca de tiempo en la que se crea el bloque
-    DoubleList<Transaction*>* data = new DoubleList<Transaction*>;
-    ChainHash<string, Transaction*>* data_hash;
+    
+    // DoubleList<Transaction*>* data = new DoubleList<Transaction*>;
+    ChainHash<string, Transaction*>* data_hash = new ChainHash<string, Transaction*>;;
+    Heap<Transaction* >* data_heap_amount = new Heap<Transaction* >;;
+    Heap<Transaction* >* data_heap_date = new Heap<Transaction* >;;
+    
     std::string previousHash;           // Hash del bloque anterior en la cadena
     std::string hash;                   // Hash del bloque actual
     int nonce = 0;                      // Número utilizado en la Prueba de Trabajo
@@ -45,7 +49,7 @@ class Block {
     Block(const Block &other) {
         this->index = other.index;
         this->nonce = other.nonce;
-        this->data = other.data;
+        // this->data = other.data;
         // this->maxFecha = other.maxFecha;
         // this->minFecha = other.minFecha;
         // this->maxMonto = other.maxMonto;
@@ -58,7 +62,7 @@ class Block {
     // Calcula el codigoash con la información del bloque
     std::string calculateHash() {
         std::stringstream ss;
-        ss << index << timestamp << data << previousHash << nonce;
+        ss << index << timestamp /*<< data */<< previousHash << nonce;
         std::string input = ss.str();
 
         unsigned char hash[SHA256_DIGEST_LENGTH];
@@ -90,7 +94,7 @@ class Block {
     void printBlock(Block block){
         std::cout << "Block Index N°: " << block.index << std::endl;
         //std::cout << "Timestamp: " << block.timestamp << std::endl; //
-        std::cout << "Data: " << block.data << std::endl;
+        // std::cout << "Data: " << block.data << std::endl;
         std::cout << "Previous Hash: " << block.previousHash << std::endl;
         std::cout << "Hash: " << block.hash << std::endl;
         std::cout << std::endl;
@@ -98,7 +102,7 @@ class Block {
 
     // Inserta una nueva transaccion
     void insert(Transaction* transaction) {
-        data->push_back(transaction);
+        // data->push_back(transaction);
         stringstream ss;
         ss << transaction;
 
@@ -114,9 +118,26 @@ class Block {
         return data_hash->search(ss.str());
     }
 
+    Transaction* maxAmount() {
+        Transaction* max_amount = data_heap_amount->top();
+        return data_hash.get()
+    }
 
-Heap<Transaction *, MIN_HEAP> minMonto() {
-    Heap<Transaction *, MIN_HEAP> minMontoHeap;
+    Transaction* minAmount() {
+
+    }
+
+    Transaction* maxDate() {
+
+    }
+
+    Transaction* minDate() {
+
+    }
+
+/*
+Heap<Transaction *> minMonto() {
+    Heap<Transaction *> minMontoHeap;
 
     // Agrega transacciones al minHeap
 
@@ -128,8 +149,8 @@ Heap<Transaction *, MIN_HEAP> minMonto() {
 
 
 // Devuelve el heap de transacciones del mayor monto como raíz
-Heap<Transaction *, MAX_HEAP> maxMonto() {
-    Heap<Transaction *, MAX_HEAP> maxMontoHeap;
+Heap<Transaction *> maxMonto() {
+    Heap<Transaction *> maxMontoHeap;
     
     // Obtén la raíz del minHeap
     Transaction *rootTransaction = maxMontoHeap.top();
@@ -142,9 +163,9 @@ Heap<Transaction *, MAX_HEAP> maxMonto() {
 }
 
 // Devuelve el heap de transacciones del menor fecha como raiz
-Heap<Transaction *, MIN_HEAP> minFecha() {
+Heap<Transaction *> minFecha() {
     
-    Heap<Transaction *, MIN_HEAP> minFechaHeap;
+    Heap<Transaction *> minFechaHeap;
 
     // Agrega transacciones al minHeap
 
@@ -159,8 +180,8 @@ Heap<Transaction *, MIN_HEAP> minFecha() {
 }
 
 // Devuelve el heap de transacciones del mayor fecha como raíz
-Heap<Transaction *, MAX_HEAP> maxFecha() {
-    Heap<Transaction *, MAX_HEAP> maxFechaHeap;
+Heap<Transaction *> maxFecha() {
+    Heap<Transaction *> maxFechaHeap;
     
     // Obtén la raíz del minHeap
     Transaction *rootTransaction = maxFechaHeap.top();
@@ -171,7 +192,7 @@ Heap<Transaction *, MAX_HEAP> maxFecha() {
     
     return maxFechaHeap;
 }
-
+*/
     DoubleList<Transaction *> maxTxD() { return maxFecha.top(); }
 
     DoubleList<Transaction *> minTxD() { return minFecha.top(); }
