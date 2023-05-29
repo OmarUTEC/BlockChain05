@@ -102,7 +102,7 @@ Es un algoritmo de consenso permite verificar si quien contribuye al blockchain 
 3. Inicia la aplicación con el archivo: 
 
 ```bash
-./scripts/auto.bat
+./start.bat
 ```
 
 

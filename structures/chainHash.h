@@ -26,7 +26,7 @@ private:
     };
 
     HashEntry** buckets;
-	int capacity;              //tamanio del buckets
+    int capacity;              //tamanio del buckets
     int size;                  //cantidad de elementos totales
 
 public:
@@ -34,9 +34,9 @@ public:
     ~ChainHash() = default;
     
     ChainHash(int capacity) {
-		this->capacity = 10; 
-		buckets = new HashEntry*[capacity];
-		size = 0;
+        this->capacity = 10; 
+        buckets = new HashEntry*[capacity];
+        size = 0;
 	}
 
     size_t hashFunction(TK key) {
@@ -67,9 +67,9 @@ public:
             buckets[index] = entry;
 
         ++size;
-	}
+    }
 
-	TV get(TK key){
+    TV get(TK key){
         size_t index = hashFunction(key);
         HashEntry* entry = buckets[index];
         while (entry->next != nullptr) {
