@@ -17,13 +17,28 @@ public:
     Transaction() = default;
     ~Transaction() = default;
 
-    Transaction(const string& client,const string& place,const string& date, float amount);
-    friend ostream &operator<<(ostream &os,const Transaction & t);
+    // constructor a partir de datos formulados
+    Transaction(const string& client, const string& place, const string& date, float amount) {
+        this->client = client;
+        this->place = place;
+        this->date = date;
+        this->amount = amount;
+    }
+
+
+    // Representación textual de una transacción
+    friend ostream &operator<<(ostream &os,const Transaction &tx) {
+        std::time_t unixTimestamp(std::stol(tx.date));
+        std::string date = std::asctime(std::localtime(&unixTimestamp));
+
+        os << "(" << tx.client << " , " << tx.date << ", " << tx.amount << ", " << date.substr(0, 24) << ")";
+        return os;
+    }
     
-   
+
     // Función que imprime la transacción en consola.
-     void printTransaction() const {
-        std::time_t unixTimestamp(std::stol(date));
+    void printTransaction() const {
+            std::time_t unixTimestamp(std::stol(date));
         string formattedDate = std::asctime(std::localtime(&unixTimestamp));
 
         std::cout << "Client: " << client << std::endl;
@@ -31,27 +46,7 @@ public:
         std::cout << "Date: " << formattedDate.substr(0, 24) << std::endl;
         std::cout << "Amount: " << amount << std::endl;
     }
-
-    // !llamada de la funcion
-    /*
-    Transaction tx("client", "place", "2023-05-23", 100.0);
-    tx.printTransaction();  // Imprime la transacción
-    */
 };
-
-Transaction::Transaction(const string& client, const string& place, const string& date, float amount) {
-        this->client = client;
-        this->place = place;
-        this->date = date;
-        this->amount = amount;
-    }
-ostream &operator<<(ostream &os,const Transaction & t){
-    std::time_t unixTimestamp(std::stol(t.date));
-    std::string date = std::asctime(std::localtime(&unixTimestamp));
-
-    os << "(" << t.client << " , " << t.date << ", " << t.amount << ", " << date.substr(0, 24) << ")";
-    return os;
-}  
 
 
 #endif // TRANSATION_COMPONENT_H

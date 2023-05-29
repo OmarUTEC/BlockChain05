@@ -35,10 +35,10 @@ public:
     virtual T pop_back() = 0;
 
     // Inserta un elemento en una posición específica de la lista
-    virtual T insert(T, int) = 0;
+    virtual void insert(T, int) = 0;
 
     // Elimina un elemento de la lista en una posición específica
-    virtual bool remove(int) = 0;
+    virtual void remove(int) = 0;
 
     // Sobrecarga del operador de indexación para acceder a los elementos de la lista por índice
     virtual T& operator[](int) = 0;
@@ -56,10 +56,10 @@ public:
     virtual void sort() = 0;
 
     // Verifica si los elementos de la lista están ordenados
-    virtual bool is_sorted() = 0;
+    // virtual bool is_sorted() = 0;
 
     // Invierte el orden de los elementos en la lista
-    virtual void reverse() = 0;
+    // virtual void reverse() = 0;
 
     // Devuelve el nombre de la implementación concreta de la lista
     virtual std::string name() = 0;

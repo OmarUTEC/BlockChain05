@@ -1,138 +1,127 @@
-#include <vector>
-#include <list>
-
+#include <sstream>
 using namespace std;
 
 const int maxColision = 3;
 const float maxFillFactor = 0.5;
+const unsigned int PRIME_CONST = 31;
 
 template<typename TK, typename TV>
-class ChainHash
-{
+class ChainHash {
 private:    
-    struct Entry{
-		TK key;
-		TV value;
-		size_t hashcode;
-        TK first;
-	};
-    list<Entry> *array;
-	int capacity;//tamanio del array
-    int size;//cantidad de elementos totales
+    struct HashEntry {
+        TK key;
+        TV value;
+        HashEntry* next = nullptr;   // puntero al siguiente HashEntry en caso de colisión
+
+        HashEntry(const TK& key, TV value): key(key), value(value) {}
+
+        HashEntry*& operator=(HashEntry* other) {
+            HashEntry* temp = other;
+            while (temp->next != nullptr) {
+                this->key = temp->key;
+                this->value = temp->value;
+                temp = temp->next;
+            }
+        }
+    };
+
+    HashEntry** buckets;
+	int capacity;              //tamanio del buckets
+    int size;                  //cantidad de elementos totales
 
 public:
-    ChainHash(){
-		// TODO: asignar un tamanio inicial al array
-		capacity = 10; 
-		array = new list<Entry>[capacity];
+    ChainHash() = default;
+    ~ChainHash() = default;
+    
+    ChainHash(int capacity) {
+		this->capacity = 10; 
+		buckets = new HashEntry*[capacity];
 		size = 0;
 	}
 
-	void set(TK key, TV value){
-		if(fillFactor() >= maxFillFactor) rehashing();
-		size_t hashcode = getHashCode(key);
-		int index = hashcode % capacity;
-		//TODO: insertar el Entry(key, value) en index, manejando colisiones
-        for (auto& entry : array[index]) {
-            if (entry.key == key) {
-                entry.value = value;
-                return;
-            }
+    size_t hashFunction(TK key) {
+        stringstream *skey = new stringstream;  
+        skey << key;          // se llama a operator << para pasar a string
+        string strkey = ss.str();
+        int sum;
+
+        // algoritmo Rolling polynomial
+        for (int i = 0; i < strkey.size(); i++) {
+            sum += (strkey[i] * (int)pow(PRIME_CONST, i)) % capacity;
         }
-        array[index].push_back(Entry{key, value, hashcode, key});
-        size++;
+        delete skey;
+        return sum % capacity;
+    }
+
+	void set(TK key, TV value){
+		size_t index = hashFunction(key);
+        HashEntry* entry = new HashEntry(key, value);
+
+        if (buckets[index] != nullptr) {
+            HashEntry* current = buckets[index];
+            while (current->next != nullptr)
+                current = current->next;
+            
+            current->next = entry;
+        } else
+            buckets[index] = entry;
+
+        ++size;
 	}
 
 	TV get(TK key){
-        size_t hashcode = getHashCode(key);
-        int index = hashcode % capacity;
-        for (auto& entry : array[index]) {
-            if (entry.key == key) {
-                return entry.value;
-            }
+        size_t index = hashFunction(key);
+        HashEntry* entry = buckets[index];
+        while (entry->next != nullptr) {
+            if (entry->key == key)
+                return entry->value;
+            
+            entry = entry->next;
         }
-        throw std::out_of_range("La clave no existe en la tabla hash");
+        throw std::out_of_range("key unbound in hashtable");
     };
 
-    bool search(TK key){
+    bool search(TK key) {
         try{
-            get(key)
-            return(true)
+            get(key);   return true;
+        } catch {
+            return false;
         }
-        return(false)
     }
 
-    void remove(TK key){
-        size_t hashcode = getHashCode(key);
-        int index = hashcode % capacity;
-        for (auto it = array[index].begin(); it != array[index].end(); ++it) {
-            if (it->key == key) {
-                array[index].erase(it);
-                size--;
-                return;
-            }
-        }
-        throw std::out_of_range("La clave no existe en la tabla hash");
-    };
-    TV& operator[](TK key) {
-        if (fillFactor() >= maxFillFactor) rehashing();
-        size_t hashcode = getHashCode(key);
-        int index = hashcode % capacity;
-        // buscar la entrada con la clave key en index, manejando colisiones
-        for (auto& entry : array[index]) {
-            if (entry.key == key) {
-                return entry.value;
-            }
-        }
-        // si la entrada no existe, agregarla al final de la lista
-        array[index].push_back(Entry{key, TV(), hashcode});
-        size++;
-        return array[index].back().value;
-    };
-
-	//TODO: implementar el operador corchete [ ]
     int bucket_count() const {
         return capacity;
     }
-    int bucket_size(unsigned n) const {
-        return array[n].size();
-    };
-    using iterator = typename list<Entry>::iterator;
-    iterator begin(unsigned n) {
-        return array[n].begin();
-    };
-    iterator end(unsigned n){
-        return array[n].end();
-    }
 
+    int bucket_size(unsigned int pos) const {
+        HashEntry* temp = buckets[pos];
+        int count = 0;
+        while (temp->next != nullptr) {;
+            temp = temp->next;
+            ++count;
+        }
+        return count;
+    };
 
 private:
     double fillFactor(){
         return static_cast<double>(size) / (capacity * maxColision);
     }
 
-    size_t getHashCode(TK key){
-        std::hash<TK> ptr_hash;
-        return ptr_hash(key);
-    }
-
     void rehashing(){
         // Aumentar la capacidad del arreglo original
         int newCapacity = capacity * 2;
-        list<Entry> *newArray = new list<Entry>[newCapacity];
+        HashEntry** newbuckets = new HashEntry*[newCapacity];
 
         // Insertar todos los elementos del arreglo original en el nuevo arreglo
-        for (int i = 0; i < capacity; i++) {
-            for (auto entry : array[i]) {
-                size_t hashcode = getHashCode(entry.key);
-                int index = hashcode % newCapacity;
-                newArray[index].push_back(entry);
-            }
+        for (int i = 0; i < capacity; ++i) {
+            if (buckets[i] != nullptr)
+                newbuckets[i] = std::move(buckets[i]);
         }
 
         // Actualizar los campos de la clase con los nuevos valores
-        delete[] array;
-        array = newArray;
+        delete[] buckets;
+        buckets = newbuckets;
         capacity = newCapacity;
-    };
+    }
 };

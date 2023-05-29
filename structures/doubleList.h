@@ -1,6 +1,3 @@
-#ifndef EVALUATEEXPRESSION_ROCKYOU_DOUBLE_H
-#define EVALUATEEXPRESSION_ROCKYOU_DOUBLE_H
-
 // codigo de la tarea anterior hecha por nosotros
 
 #include <iostream>
@@ -11,35 +8,22 @@ class DoubleList : public List<T> {
 private:
     struct Node {
         T data;
-        Node *next;
-        Node *prev;
-
-        Node() : data(T()), next(nullptr), prev(nullptr) {}
-
-        explicit Node(T value) : data(value), next(nullptr), prev(nullptr) {}
-
-        void killSelf() {
-            if (prev) {
-                prev->next = next;
-            }
-            if (next) {
-                next->prev = prev;
-            }
-            delete this;
-        }
+        Node* next = nullptr;
+        Node* prev = nullptr;
+        Node() {}
+        Node(T value): data(value) {}
+        ~Node() {}
     };
 
 private:
-    Node *head;
-    Node *tail;
+    Node* head = nullptr;
+    Node* tail = nullptr;
     int nodes;
 
 public:
-    DoubleList() : List<T>(), head(nullptr), tail(nullptr), nodes(0) {}
+    DoubleList() : List<T>(), nodes(0) {}
 
-    ~DoubleList() {
-        clear();
-    }
+    ~DoubleList() {  delete head, tail; };
 
     T front() {
        if (head == nullptr) {
@@ -84,15 +68,15 @@ public:
             throw std::out_of_range("List is empty");
         }
         T data = head->data;
-        Node *temp = head;
-        if (head == tail) {
-            head = tail = nullptr;
-        } else {
+        if (head->next == nullptr)
+            head == tail == nullptr
+
+        else {
             head = head->next;
+            delete head->prev;
             head->prev = nullptr;
+            --nodes;
         }
-        --nodes;
-        delete temp;
         return data;
     }
 
@@ -101,74 +85,73 @@ public:
             throw std::out_of_range("List is empty");
         }
         T data = tail->data;
-        Node *temp = tail;
-        if (head == tail) {
-            head = tail = nullptr;
-        } else {
+        if (tail->prev == nullptr)
+            head == tail == nullptr
+
+        else {
             tail = tail->prev;
+            delete tail->next;
             tail->next = nullptr;
+            --nodes;
         }
-        --nodes;
-        delete temp;
         return data;
     }
 
-    T insert(T data, int pos) {
-        if (pos < 0 || pos > nodes) {
-            throw std::out_of_range("Invalid position");
+    void insert(T value, int index=0) {
+        if (index < 0 || index >= nodes) {
+            throw std::out_of_range("Index out of range");
         }
-        if (pos == 0) {
-            push_front(data);
-            return data;
-        }
-        if (pos == nodes) {
-            push_back(data);
-            return data;
-        }
-        Node *current = head;
-        int current_pos = 0;
-        while (current_pos < pos) {
-            current = current->next;
-            ++current_pos;
-        }
-        Node *new_node = new Node(data);
-        new_node->prev = current->prev;
-        new_node->next = current;
-        current->prev->next = new_node;
-        current->prev = new_node;
-        ++nodes;
-        return data;
-    }
-
-    bool remove(int pos) {
-        if (pos < 0 || pos >= nodes) {
-            return false;
+        else if (index == 0) {
+            push_front(value);       return;
         }
 
-        Node *temp = head;
+        Node* new_node = new Node(value);
+        if (head == nullptr)         head = new_node;
 
-        if (pos == 0) {
-            if (head == tail) {
-                head = nullptr;
-                tail = nullptr;
-            } else {
-                head = head->next;
-                head->prev = nullptr;
+        else {
+            Node* temp;
+            if (index+1 > nodes/2) {
+                temp = tail;
+                while (index-- > nodes/2)
+                    temp = temp->prev;
             }
-        } else if (pos == nodes - 1) {
+            else {
+                temp = head;
+                while (index-- > 0)
+                    temp = temp->next;
+            }
+            new_node->next = temp;
+            new_node->prev = temp->prev;
+            temp->prev->next = new_node;
+            temp->prev = new_node;
+            ++nodes;
+        }
+    }
+
+    void remove(int pos) {
+        if (is_empty() || pos<0 || pos>=nodes) {
+            throw std::out_of_range("Index out of range");
+        }
+        if (pos == 0) {
+            head = head->next;
+            delete head->prev;
+            head->prev = nullptr;
+        }
+        else if (pos == nodes-1) {
             tail = tail->prev;
+            delete tail->next;
             tail->next = nullptr;
-        } else {
-            for (int i = 0; i < pos; i++) {
+        }
+        else {
+            Node* temp = head;
+            while (pos-- > 0)
                 temp = temp->next;
-            }
+
             temp->prev->next = temp->next;
             temp->next->prev = temp->prev;
+            delete temp;
         }
-
-        delete temp;
-        nodes--;
-        return true;
+        --nodes;
     }
 
     T &operator[](int pos) {
@@ -188,7 +171,7 @@ public:
     }
 
     void clear() {
-        while (!is_empty()) {
+        while (head != nullptr) {
             pop_front();
         }
     }
@@ -218,33 +201,16 @@ public:
         return true;
     }
 
-    void reverse() {
-        Node *current = head;
-        Node *temp = nullptr;
-
-        while (current != nullptr) {
-            temp = current->prev;
-            current->prev = current->next;
-            current->next = temp;
-            current = current->prev;
-        }
-
-        if (temp != nullptr) {
-            head = temp->prev;
-        }
-    }
 
     std::string name() {
         return "DoubleList";
     }
 
-    Node<T> *begin() {
+    Node *begin() {
         return head;
     }
 
-    Node<T> *end() {
+    Node *end() {
         return tail;
     }
 };
-
-#endif
