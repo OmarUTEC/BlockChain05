@@ -69,14 +69,12 @@ El dominio transaccional que hemos escogido es : Retiros de dinero (cliente, lug
 ## Funcionalidad de la aplicación
 -
 
-### Estructuras de datos
+<h1 align="center">Estructuras de datos</h1>
 
 ![](assets/Heap_min_max.png)
 
 - Heap:
 La hemos implementado para usar el maxHeap para el máximo valor y el minHeap para el mínimo valor de los datos ingresados.
-
-<h1 align="center">Estructuras de datos</h1>
 
 ## DoubleList (Lista doblemente enlazada)
 
