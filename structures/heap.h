@@ -6,7 +6,8 @@ using namespace std;
 
 const enum Type { MAX_HEAP, MIN_HEAP };
 
-template <typename T, enum Type>
+// template <typename T, enum Type>
+template <typename T, Type heapType>
 class Heap
 {
 private:
@@ -16,6 +17,7 @@ private:
     Type type;
 
 public:
+    Heap() = default;
     Heap(T *elements, int n, Type type=MAX_HEAP) : elements(elements), n(n), type(type)
     {
         buildFromArray(elements, n);

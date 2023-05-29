@@ -3,7 +3,7 @@
 #include "blocks/blockchain.h"
 
 int main() {
-    Blockchain* blockchain = new Blockchain;
+    BlockChain* blockchain = new BlockChain;
     blockchain->init_blockchain();
     delete blockchain;
 }

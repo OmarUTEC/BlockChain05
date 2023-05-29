@@ -12,12 +12,16 @@ using namespace std;
 class BlockChain {
 
 private:
-    DoubleList<Block *> chain {};
-    ChainHash <std::string, NodeList<Block *> *> usersHash {};
+    DoubleList<Block *> chain;
+    ChainHash <std::string, NodeList<Block *> *> usersHash;
     
 public:
  
+  BlockChain() = default;
   ~BlockChain() = default;
+
+  void init_blockchain();
+
   BlockChain(const string &users,const string &transacciones); //Leo
   void createUser(const string &username, const string &password); //Leo
   bool searchUser(const string &username, const string &password); //Leo
@@ -58,7 +62,7 @@ BlockChain::BlockChain(const string &users,const string &transacciones){
 }
 
 
-void init_blockchain() {
+void BlockChain::init_blockchain() {
 
 }
 
@@ -153,7 +157,7 @@ void BlockChain::cascade(const string &username, const string &password){
     loadFile(&transactions);
 }
 
-static void loadFile(DoubleList<Transaction*>* doubleList, const std::string& path = "./assets/data/datos.txt") {
+void BlockChain::loadFile(DoubleList<Transaction*>* doubleList, const std::string& path = "./assets/data/datos.txt") {
     std::ifstream file(path);
     if (!file.is_open()) {
         std::cerr << "No se pudo abrir el archivo: " << path << std::endl;

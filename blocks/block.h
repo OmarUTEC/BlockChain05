@@ -50,14 +50,17 @@ struct Block {
         this->hash = other.hash;
     }
 
-    
-    void insert(Transaction* transaction) {
-
+ /*
+     void insert(Transaction* transaction) {
+        data->insertBack(transaction);
+        data_hash.insert(transaction->getHash(), transaction);
     }
 
     bool search(Transaction* transaction) {
-
+        return data_hash.search(transaction->getHash());
     }
+ */   
+
 
 
     std::string calculateHash() {
@@ -73,13 +76,10 @@ struct Block {
             hashStream << std::hex << (int)hash[i];
         }
 
-        return hashStream.str()
+        return hashStream.str();
     }
 
-
-// Devuelve el heap de transacciones del menor monto como raiz
 Heap<Transaction *, MIN_HEAP> minMonto() {
-    
     Heap<Transaction *, MIN_HEAP> minMontoHeap;
 
     // Agrega transacciones al minHeap
@@ -89,6 +89,7 @@ Heap<Transaction *, MIN_HEAP> minMonto() {
 
     return minMontoHeap;
 }
+
 
 // Devuelve el heap de transacciones del mayor monto como raíz
 Heap<Transaction *, MAX_HEAP> maxMonto() {
@@ -158,6 +159,15 @@ Heap<Transaction *, MAX_HEAP> maxFecha() {
         std::cout << "Hash: " << block.hash << std::endl;
         std::cout << std::endl;
     }
+
+
+    DoubleList<Transaction *> maxTxD() { return maxFecha.top(); }
+
+    DoubleList<Transaction *> minTxD() { return minFecha.top(); }
+
+    DoubleList<Transaction *> maxTxA() { return maxMonto.top(); }
+
+    DoubleList<Transaction *> minTxA() { return minMonto.top(); }
 };
 
 #endif // BLOCK_COMPONENT_H
