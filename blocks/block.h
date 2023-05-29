@@ -107,6 +107,15 @@ class Block {
     }
  */   
 
+    /*
+        bool search(){
+        return true;
+    }
+    */
+
+    bool search(Transaction* transaction) {
+        return data_hash.containsKey(transaction->getTransactionID());
+    }
 
 
 Heap<Transaction *, MIN_HEAP> minMonto() {
