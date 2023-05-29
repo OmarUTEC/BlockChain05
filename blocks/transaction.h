@@ -23,22 +23,11 @@ public:
         this->place = place;
         this->date = date;
         this->amount = amount;
-    }
-
-
-    // Representación textual de una transacción
-    friend ostream &operator<<(ostream &os,const Transaction &tx) {
-        std::time_t unixTimestamp(std::stol(tx.date));
-        std::string date = std::asctime(std::localtime(&unixTimestamp));
-
-        os << "(" << tx.client << " , " << tx.date << ", " << tx.amount << ", " << date.substr(0, 24) << ")";
-        return os;
-    }
-    
+    } 
 
     // Función que imprime la transacción en consola.
     void printTransaction() const {
-            std::time_t unixTimestamp(std::stol(date));
+        std::time_t unixTimestamp(std::stol(date));
         string formattedDate = std::asctime(std::localtime(&unixTimestamp));
 
         std::cout << "Client: " << client << std::endl;
@@ -48,5 +37,14 @@ public:
     }
 };
 
+
+// Representación textual de una transacción   
+ostream &operator<<(ostream &os, const Transaction &tx) {
+    std::time_t unixTimestamp(std::stol(tx.date));
+    std::string date = std::asctime(std::localtime(&unixTimestamp));
+
+    os << "(" << tx.client << " , " << tx.date << ", " << tx.amount << ", " << date.substr(0, 24) << ")";
+    return os;
+}
 
 #endif // TRANSATION_COMPONENT_H

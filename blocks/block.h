@@ -21,7 +21,7 @@ class Block {
     int index;                          // Índice del bloque en la cadena
     std::string timestamp;              // Marca de tiempo en la que se crea el bloque
     DoubleList<Transaction*>* data = new DoubleList<Transaction*>;
-    ChainHash<string, Transaction*> data_hash;
+    ChainHash<string, Transaction*>* data_hash;
     std::string previousHash;           // Hash del bloque anterior en la cadena
     std::string hash;                   // Hash del bloque actual
     int nonce = 0;                      // Número utilizado en la Prueba de Trabajo
@@ -96,25 +96,21 @@ class Block {
         std::cout << std::endl;
     }
 
- /*
-     void insert(Transaction* transaction) {
-        data->insertBack(transaction);
-        data_hash.insert(transaction->getHash(), transaction);
+    // Inserta una nueva transaccion
+    void insert(Transaction* transaction) {
+        data->push_back(transaction);
+        stringstream ss;
+        ss << transaction;
+
+        data_hash->get(ss.str());
     }
 
+    // Valida si se encuentra la transaccion 
     bool search(Transaction* transaction) {
-        return data_hash.search(transaction->getHash());
-    }
- */   
+        stringstream ss;
+        ss << transaction;
 
-    /*
-        bool search(){
-        return true;
-    }
-    */
-
-    bool search(Transaction* transaction) {
-        return data_hash.containsKey(transaction->getTransactionID());
+        return data_hash->search(ss.str());
     }
 
 

@@ -4,6 +4,7 @@ using namespace std;
 const int maxColision = 3;
 const float maxFillFactor = 0.5;
 const unsigned int PRIME_CONST = 31;
+const int capacityDEF = 10;
 
 template<typename TK, typename TV>
 class ChainHash {
@@ -27,22 +28,24 @@ private:
 
     HashEntry** buckets;
     int capacity;              //tamanio del buckets
-    int size;                  //cantidad de elementos totales
+    int size = 0;              //cantidad de elementos totales
 
 public:
-    ChainHash() = default;
+    ChainHash() {
+        this->capacity = capacityDEF; 
+        buckets = new HashEntry*[capacity];
+    };
     ~ChainHash() = default;
     
     ChainHash(int capacity) {
-        this->capacity = 10; 
+        this->capacity = capacity; 
         buckets = new HashEntry*[capacity];
-        size = 0;
 	}
 
     size_t hashFunction(TK key) {
         stringstream *skey = new stringstream;  
-        skey << key;          // se llama a operator << para pasar a string
-        string strkey = ss.str();
+        *skey << key;          // se llama a operator << para pasar a string
+        string strkey = skey->str();
         int sum;
 
         // algoritmo Rolling polynomial
