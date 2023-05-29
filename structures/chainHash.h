@@ -33,7 +33,7 @@ private:
 public:
     ChainHash() {
         this->capacity = capacityDEF; 
-        buckets = new HashEntry*[capacity];
+        buckets = new HashEntry*[capacityDEF];
     };
     ~ChainHash() = default;
     
@@ -43,16 +43,15 @@ public:
 	}
 
     size_t hashFunction(TK key) {
-        stringstream *skey = new stringstream;  
-        *skey << key;          // se llama a operator << para pasar a string
-        string strkey = skey->str();
+        stringstream skey;   skey << key;          // se llama a operator << para pasar a string
+        string strkey = skey.str();
         int sum;
 
         // algoritmo Rolling polynomial
         for (int i = 0; i < strkey.size(); i++) {
             sum += (strkey[i] * (int)pow(PRIME_CONST, i)) % capacity;
         }
-        delete skey;
+
         return sum % capacity;
     }
 
@@ -119,7 +118,7 @@ private:
         // Insertar todos los elementos del arreglo original en el nuevo arreglo
         for (int i = 0; i < capacity; ++i) {
             if (buckets[i] != nullptr)
-                newbuckets[i] = std::move(buckets[i]);
+                newbuckets->get(buckets[i]->key, buckets[i]->value)
         }
 
         // Actualizar los campos de la clase con los nuevos valores

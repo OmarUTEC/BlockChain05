@@ -106,6 +106,7 @@ class Block {
     }
 
     // Valida si se encuentra la transaccion 
+    // se usa Heap para que la busqueda sea 0(log(n))
     bool search(Transaction* transaction) {
         stringstream ss;
         ss << transaction;
