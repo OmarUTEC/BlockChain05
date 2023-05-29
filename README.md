@@ -76,6 +76,7 @@ El dominio transaccional que hemos escogido es : Retiros de dinero (cliente, lug
 - Heap:
 La hemos implementado para usar el maxHeap para el máximo valor y el minHeap para el mínimo valor de los datos ingresados.
 
+
 ### Proof of Work
 Es un algoritmo de consenso permite verificar si quien contribuye al blockchain lo hace de forma legítima o está incurriendo en fraude. Permite la verificación, evitar ataques mediante el 51% y cualquier mecanismo que permita mantener al correcto crecimiento del blockchain.
 
