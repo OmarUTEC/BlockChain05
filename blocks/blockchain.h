@@ -18,7 +18,7 @@ private:
     // Faltaria el b+tree;
     hashBlock* usersHash = new hashBlock;          // hashtable de par (usuario,bloque)
     int cantblocks =0;                             // cantidad de bloques
-    
+
 public:
  
   BlockChain() = default;
@@ -39,10 +39,9 @@ public:
   void MaxAmount(const std::string &username, const std::string &password); // Mariel
   void MinAmount(const std::string &username, const std::string &password); // Mariel
   void cascade(const string &username, const string &password); // Mariel
-  static void loadFile(DoubleList<Transaction*>* doubleList, const std::string& path = "./assets/data/datos.txt"); //Mariel
+  void downloadFile(const std::string& path = "./assets/data/datos.txt"); //Mariel
   
 };
-
 
 BlockChain::BlockChain(const string &fileUsers, const string &fileTransactions){
     string line;
@@ -106,56 +105,46 @@ bool BlockChain::searchData(const string &username, const string &password, cons
 void BlockChain::theTransactions(const string &username, const string &password){
     string hash = username + "&&" + password;
     Block::TxList* userTransactions = usersHash->get(hash)->getTransactions();
-    loadFile(&userTransactions);
+    downloadFile(&userTransactions);
 }
 
 void BlockChain::MaxDate(const string &username, const string &password){
     string hash = username + "&&" + password;
     Transaction * transactions = usersHash->get(hash)->maxDate();
-    //loadFile(&transactions);
+    //downloadFile(&transactions);
 }
 
 void BlockChain::MinDate(const string &username, const string &password){
     string hash = username + "&&" + password;
     Transaction * transactions = usersHash->get(hash)->minDate();
-    //loadFile(&transactions);
+    //downloadFile(&transactions);
 }
 
 void BlockChain::MaxAmount(const string &username, const string &password){
     string hash = username + "&&" + password;
     Transaction * transactions = usersHash->get(hash)->maxAmount();
-    //loadFile(&transactions);
+    //downloadFile(&transactions);
 }
 
 void BlockChain::MinAmount(const string &username, const string &password){
     string hash = username + "&&" + password;
     Transaction * transactions = usersHash->get(hash)->minAmount();
-    //loadFile(&transactions);
+    //downloadFile(&transactions);
 }
 
 /*
 void BlockChain::cascade(const string &username, const string &password){
     string hash = username + "&&" + password;
     Transaction * transactions = this->usersHash.get(hash)->data;
-    //loadFile(&transactions);
+    //downloadFile(&transactions);
 }*/
 
 
-void BlockChain::loadFile(DoubleList<Transaction*>* doubleList, const std::string& path = "./assets/data/datos.txt") {
-    std::ifstream* file = new ifstream(path);
-    // std::ifstream file(path);
-    if (!file->is_open()) {
-        std::cerr << "No se pudo abrir el archivo: " << path << std::endl;
-        return;
+void BlockChain::downloadFile(const std::string& path = "./assets/data/datos.txt") {
+    std::ofstream* file = new ofstream(path);
+    for (int i=0; i<blocks->size(); i++) {
+        auto tx = usersHash->get_bucket(i)->data->value->getTransactions();
+        // file << tx->nombre << " " << tx->string2 << " " << tx->amount << " " << tx->date << std::endl;
     }
-
-    string line;
-
-    getline(*file,line,'\n');
-    
-    string username, password, amount,place,date;
-    while((*file) >> username >> password >> date >> place >> amount){
-        insertTransaction(username,password,place,stof(amount),date);
-    }
-    file->close();
+    // out.close();
 }

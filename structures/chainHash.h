@@ -22,7 +22,7 @@ public:
     typedef NodeList<Entry*> EntryNode;
 
 private:
-    HashList **buckets;
+    HashList **buckets = new HashList*[capacityDEF];
     int capacity;              //tamanio del buckets
     int size = 0;              //cantidad de elementos totales
 
@@ -82,6 +82,10 @@ public:
     int bucket_size(unsigned int pos) const {
         return buckets[pos]->size();
     };
+
+    EntryNode* get_bucket(unsigned int pos) {
+        return buckets[pos]->begin();
+    }
 
 private:
     double fillFactor() const {
