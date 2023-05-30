@@ -13,6 +13,7 @@
 
 using namespace std;
 const int DIFFICULTY = 4;       // Número de ceros iniciales requeridos en el hash
+const string HashGenesis(64, '0');
 
 // Definición de la estructura del bloque
 class Block {
@@ -37,7 +38,7 @@ private:
  public:
 
     // constructor asignando el hash del bloque anterior como prevHash del actual
-    Block(int idx = 0, string prevHash = string('0', 64)) {
+    Block(int idx = 0, string prevHash = HashGenesis) {
         this->index = idx;
         this->timestamp = to_string(time(0));
         this->previousHash = prevHash;
