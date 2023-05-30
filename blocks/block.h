@@ -21,10 +21,12 @@ class Block {
     int index;                          // Índice del bloque en la cadena
     std::string timestamp;              // Marca de tiempo en la que se crea el bloque
     
-    // DoubleList<Transaction*>* data = new DoubleList<Transaction*>;
-    ChainHash<string, Transaction*>* data_hash = new ChainHash<string, Transaction*>;;
-    Heap<Transaction* >* data_heap_amount = new Heap<Transaction* >;;
-    Heap<Transaction* >* data_heap_date = new Heap<Transaction* >;;
+    DoubleList<Transaction* >* data = new DoubleList<Transaction* >;
+    // ChainHash<string, Transaction*>* data_hash = new ChainHash<string, Transaction*>;
+    Heap<Transaction* >* minheap_amount = new Heap<Transaction* >;
+    Heap<Transaction* >* maxheap_amount = new Heap<Transaction* >;
+    Heap<Transaction* >* minheap_date = new Heap<Transaction* >;
+    Heap<Transaction* >* maxheap_date = new Heap<Transaction* >;
     
     std::string previousHash;           // Hash del bloque anterior en la cadena
     std::string hash;                   // Hash del bloque actual
@@ -62,7 +64,7 @@ class Block {
     // Calcula el codigoash con la información del bloque
     std::string calculateHash() {
         std::stringstream ss;
-        ss << index << timestamp /*<< data */<< previousHash << nonce;
+        ss << index << timestamp << previousHash << nonce;
         std::string input = ss.str();
 
         unsigned char hash[SHA256_DIGEST_LENGTH];
@@ -93,8 +95,7 @@ class Block {
     // Imprimer el bloque con la información de las transacciones en consola
     void printBlock(Block block){
         std::cout << "Block Index N°: " << block.index << std::endl;
-        //std::cout << "Timestamp: " << block.timestamp << std::endl; //
-        // std::cout << "Data: " << block.data << std::endl;
+        // std::cout << "Timestamp: " << block.timestamp << std::endl; //
         std::cout << "Previous Hash: " << block.previousHash << std::endl;
         std::cout << "Hash: " << block.hash << std::endl;
         std::cout << std::endl;
@@ -103,36 +104,35 @@ class Block {
     // Inserta una nueva transaccion
     void insert(Transaction* transaction) {
         // data->push_back(transaction);
-        stringstream ss;
-        ss << transaction;
-
-        data_hash->get(ss.str());
+        data->push_back(transaction);
+        minheap_amount->push(transaction);
+        maxheap_amount->push(transaction);
+        minheap_date->push(transaction);
+        maxheap_date->push(transaction);
     }
 
     // Valida si se encuentra la transaccion 
-    // se usa Heap para que la busqueda sea 0(log(n))
     bool search(Transaction* transaction) {
-        stringstream ss;
-        ss << transaction;
+        // stringstream ss;
+        // ss << transaction;
 
-        return data_hash->search(ss.str());
+        return data->find(transaction);
     }
 
     Transaction* maxAmount() {
-        Transaction* max_amount = data_heap_amount->top();
-        return data_hash.get()
+        return maxheap_amount->top();
     }
 
     Transaction* minAmount() {
-
+        return minheap_amount->top();
     }
 
     Transaction* maxDate() {
-
+        return maxheap_date->top();
     }
 
     Transaction* minDate() {
-
+        return minheap_date->top();
     }
 
 /*
@@ -193,13 +193,13 @@ Heap<Transaction *> maxFecha() {
     return maxFechaHeap;
 }
 */
-    DoubleList<Transaction *> maxTxD() { return maxFecha.top(); }
+    // DoubleList<Transaction *> maxTxD() { return maxFecha.top(); }
 
-    DoubleList<Transaction *> minTxD() { return minFecha.top(); }
+    // DoubleList<Transaction *> minTxD() { return minFecha.top(); }
 
-    DoubleList<Transaction *> maxTxA() { return maxMonto.top(); }
+    // DoubleList<Transaction *> maxTxA() { return maxMonto.top(); }
 
-    DoubleList<Transaction *> minTxA() { return minMonto.top(); }
+    // DoubleList<Transaction *> minTxA() { return minMonto.top(); }
 };
 
 

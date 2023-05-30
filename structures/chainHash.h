@@ -116,23 +116,19 @@ private:
 
     void rehashing(){
         // Aumentar la capacidad del arreglo original
-        int newCapacity = capacity * 2;
         HashEntry** newbuckets = buckets;
+        delete[] buckets;
+        buckets = new HashEntry*[capacity*2];
 
         // Insertar todos los elementos del arreglo original en el nuevo arreglo
-        for (HashEntry* entry : buckets) {
-            HashEntry* nextEntry = entry;
-            while (entry != nullptr) {
-                entry = entry->next;
-                set(entry->key, entry->value);  // Llamada al método insert() de la tabla hash
+        for (HashEntry* entry : newbuckets) {
+            HashEntry* temp = entry;
+            while (temp != nullptr) {
+                temp = temp->next;
+                set(temp->key, temp->value);
             }
-            delete entry;
-            entry = nextEntry;
         }
 
-        // Actualizar los campos de la clase con los nuevos valores
-        delete[] buckets;
-        buckets = newbuckets;
-        capacity = newCapacity;
+        capacity = capacity*2;
     }
 };
