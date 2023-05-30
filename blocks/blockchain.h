@@ -105,7 +105,7 @@ bool BlockChain::searchData(const string &username, const string &password, cons
 void BlockChain::theTransactions(const string &username, const string &password){
     string hash = username + "&&" + password;
     Block::TxList* userTransactions = usersHash->get(hash)->getTransactions();
-    downloadFile(&userTransactions);
+    //downloadFile(&userTransactions);
 }
 
 void BlockChain::MaxDate(const string &username, const string &password){
