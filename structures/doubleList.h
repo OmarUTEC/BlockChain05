@@ -2,26 +2,49 @@
 
 #include <iostream>
 #include "list.h"
+#include "node.h"
 
 template <typename T>
 class DoubleList : public List<T> {
 private:
-    struct Node {
-        T data;
-        Node* next = nullptr;
-        Node* prev = nullptr;
-        Node() {}
-        Node(T value): data(value) {}
-        ~Node() {}
-    };
+    // struct Node {
+    //     T data;
+    //     NodeList<T>* next = nullptr;
+    //     NodeList<T>* prev = nullptr;
+    //     Node() {}
+    //     Node(T value): data(value) {}
+    //     ~Node() {}
+    // };
 
 private:
-    Node* head = nullptr;
-    Node* tail = nullptr;
+    NodeList<T>* head = nullptr;
+    NodeList<T>* tail = nullptr;
     int nodes;
 
 public:
     DoubleList() : List<T>(), nodes(0) {}
+
+    DoubleList& operator=(const DoubleList& other) {
+        if (this == &other)      return *this;  
+
+        NodeList<T>* current = head;
+        while (current != nullptr) {
+            NodeList<T>* nextNode = current->next;
+            delete current;
+            current = nextNode;
+        }
+        head = nullptr;
+        tail = nullptr;
+
+        // Copiar los elementos de la otra lista
+        NodeList<T>* otherCurrent = other.head;
+        while (otherCurrent != nullptr) {
+            push_back(otherCurrent->data);
+            otherCurrent = otherCurrent->next;
+        }
+
+        return *this;
+    }
 
     ~DoubleList() {  delete head, tail; };
 
@@ -40,7 +63,7 @@ public:
     }
 
     void push_front(T data) {
-        Node *new_node = new Node(data);
+        NodeList<T> *new_node = new Node(data);
         if (head == nullptr) {
             head = tail = new_node;
         } else {
@@ -52,7 +75,7 @@ public:
     }
 
     void push_back(T data) {
-        Node *new_node = new Node(data);
+        NodeList<T> *new_node = new Node(data);
         if (tail == nullptr) {
             head = tail = new_node;
         } else {
@@ -105,11 +128,11 @@ public:
             push_front(value);       return;
         }
 
-        Node* new_node = new Node(value);
+        NodeList<T>* new_node = new Node(value);
         if (head == nullptr)         head = new_node;
 
         else {
-            Node* temp;
+            NodeList<T>* temp;
             if (index+1 > nodes/2) {
                 temp = tail;
                 while (index-- > nodes/2)
@@ -143,7 +166,7 @@ public:
             tail->next = nullptr;
         }
         else {
-            Node* temp = head;
+            NodeList<T>* temp = head;
             while (pos-- > 0)
                 temp = temp->next;
 
@@ -154,8 +177,18 @@ public:
         --nodes;
     }
 
+    bool search(T value) {
+        NodeList<T>* temp = head;
+        while (temp != nullptr) {
+            if (temp->data = value)
+                return true;
+            temp = temp->next;
+        }
+        return false;
+    }
+
     T &operator[](int pos) {
-        Node *current = head;
+        NodeList<T> *current = head;
         for (int i = 0; i < pos; i++) {
             current = current->next;
         }
@@ -178,7 +211,7 @@ public:
 
     void sort() {
         for (int i = 0; i < nodes - 1; i++) {
-            Node *current = head;
+            NodeList<T> *current = head;
             for (int j = 0; j < nodes - 1 - i; j++) {
                 if (current->data > current->next->data) {
                     T temp = current->data;
@@ -191,7 +224,7 @@ public:
     }
 
     bool is_sorted() {
-        Node *current = head;
+        NodeList<T> *current = head;
         while (current != nullptr && current->next != nullptr) {
             if (current->data > current->next->data) {
                 return false;
@@ -206,11 +239,11 @@ public:
         return "DoubleList";
     }
 
-    Node *begin() {
+    NodeList<T> *begin() {
         return head;
     }
 
-    Node *end() {
+    NodeList<T> *end() {
         return tail;
     }
 };

@@ -16,7 +16,8 @@ private:
     Type type;
 
 public:
-    Heap() = default;
+    Heap(Type type = MAX_HEAP) = default;
+
     Heap(T *array, int elem, Type type = MAX_HEAP) : elements(elem), capacity(elem), type(type) {
         buildFromArray(array, elem);
     }
@@ -67,7 +68,7 @@ public:
     }
 
     T pop() {
-        // eliminar un elemento del arbol
+        // eliminar el primer elemento del arbol
         T aux = array[0];
         array[0] = array[--elements];
         resize(elements);
@@ -92,15 +93,8 @@ public:
             throw runtime_error("The heap has less array than k");
         }
         else{
-            if (type == MAX_HEAP){
-                for (int i = 0; i < k; i++){
-                    topk.push_back(pop());
-                }
-            }
-            else{
-                for (int i = 0; i < k; i++){
-                    topk.push_back(pop());
-                }
+            for (int i = 0; i < k; i++){
+                topk.push_back(top());
             }
         }
         return topk;

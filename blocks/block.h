@@ -2,31 +2,33 @@
 #define BLOCK_COMPONENT_H
 
 #include <iostream>
-#include <vector>
 #include <ctime>
 #include <sstream>
 #include <string>
 #include <openssl/sha.h> 
 #include "../structures/heap.h"
 #include "../structures/doubleList.h"
-#include "../structures/chainHash.h"
+// #include "../structures/chainHash.h"
 #include "transaction.h"
 
 using namespace std;
-
 const int DIFFICULTY = 4;       // Número de ceros iniciales requeridos en el hash
 
 // Definición de la estructura del bloque
 class Block {
+public:
+    typedef DoubleList<Transaction*> TxList;
+    typedef Heap<Transaction*> TxHeap;
+
+private:
     int index;                          // Índice del bloque en la cadena
     std::string timestamp;              // Marca de tiempo en la que se crea el bloque
     
-    DoubleList<Transaction* >* data = new DoubleList<Transaction* >;
-    // ChainHash<string, Transaction*>* data_hash = new ChainHash<string, Transaction*>;
-    Heap<Transaction* >* minheap_amount = new Heap<Transaction* >;
-    Heap<Transaction* >* maxheap_amount = new Heap<Transaction* >;
-    Heap<Transaction* >* minheap_date = new Heap<Transaction* >;
-    Heap<Transaction* >* maxheap_date = new Heap<Transaction* >;
+    TxList* data = new TxList;
+    TxHeap* minheap_amount = new TxHeap(TxHeap::MIN_HEAP);
+    TxHeap* maxheap_amount = new TxHeap;
+    TxHeap* minheap_date = new TxHeap(TxHeap::MIN_HEAP);
+    TxHeap* maxheap_date = new TxHeap;
     
     std::string previousHash;           // Hash del bloque anterior en la cadena
     std::string hash;                   // Hash del bloque actual
@@ -34,11 +36,8 @@ class Block {
 
  public:
 
-    Block() = default;
-    ~Block() = default;
-
-    // constructor a partir del index y el codigohash anterior 
-    Block(int idx, string prevHash) {
+    // constructor asignando el hash del bloque anterior como prevHash del actual
+    Block(int idx = 0, string prevHash = string('0', 64)) {
         this->index = idx;
         this->timestamp = to_string(time(0));
         this->previousHash = prevHash;
@@ -46,16 +45,19 @@ class Block {
         mineBlock();
     }
 
+    ~Block() = default;
+
+    // constructor a partir de un registro de transacciones
+    Block(string prevHash, const string& transaction) {
+        this->timestamp = to_string(time(0));
+        this->hash = calculateHash();
+        mineBlock();
+    }
 
     // constructor copia a partir de otro bloque
     Block(const Block &other) {
         this->index = other.index;
         this->nonce = other.nonce;
-        // this->data = other.data;
-        // this->maxFecha = other.maxFecha;
-        // this->minFecha = other.minFecha;
-        // this->maxMonto = other.maxMonto;
-        // this->minMonto= other.minMonto;
         this->previousHash = other.previousHash;
         this->hash = other.hash;
     }
@@ -103,7 +105,6 @@ class Block {
 
     // Inserta una nueva transaccion
     void insert(Transaction* transaction) {
-        // data->push_back(transaction);
         data->push_back(transaction);
         minheap_amount->push(transaction);
         maxheap_amount->push(transaction);
@@ -113,93 +114,39 @@ class Block {
 
     // Valida si se encuentra la transaccion 
     bool search(Transaction* transaction) {
-        // stringstream ss;
-        // ss << transaction;
-
-        return data->find(transaction);
+        return data->search(transaction);
     }
 
+    // -- La transaccion con mayor monto
     Transaction* maxAmount() {
         return maxheap_amount->top();
     }
 
+    // -- La transaccion con menor monto
     Transaction* minAmount() {
         return minheap_amount->top();
     }
 
+    // -- La transaccion con la fecha mas reciente
     Transaction* maxDate() {
         return maxheap_date->top();
     }
 
+    // -- La transaccion con la fecha mas antigua
     Transaction* minDate() {
         return minheap_date->top();
     }
 
-/*
-Heap<Transaction *> minMonto() {
-    Heap<Transaction *> minMontoHeap;
-
-    // Agrega transacciones al minHeap
-
-    // Obtén la raíz del minHeap
-    Transaction *rootTransaction = minMontoHeap.top();
-
-    return minMontoHeap;
-}
 
 
-// Devuelve el heap de transacciones del mayor monto como raíz
-Heap<Transaction *> maxMonto() {
-    Heap<Transaction *> maxMontoHeap;
+    DoubleList<Transaction*> rangeDate(string date1, string date2); 
+        // para la segunda entrega
     
-    // Obtén la raíz del minHeap
-    Transaction *rootTransaction = maxMontoHeap.top();
 
-    // Accede a los datos de la transacción raíz
-    std::cout << "Root Transaction: ";
-    rootTransaction->printTransaction();
+    DoubleList<Transaction*> rangeAmount(float amount1, float amount2); 
+        // para la segunda entrega
     
-    return maxMontoHeap;
-}
 
-// Devuelve el heap de transacciones del menor fecha como raiz
-Heap<Transaction *> minFecha() {
-    
-    Heap<Transaction *> minFechaHeap;
-
-    // Agrega transacciones al minHeap
-
-
-    // Obtén la raíz del minHeap
-    Transaction *rootTransaction = minFechaHeap.top();
-
-    // Accede a los datos de la transacción raíz
-    std::cout << "Root Transaction: ";
-    rootTransaction->printTransaction();
-    return minFechaHeap;
-}
-
-// Devuelve el heap de transacciones del mayor fecha como raíz
-Heap<Transaction *> maxFecha() {
-    Heap<Transaction *> maxFechaHeap;
-    
-    // Obtén la raíz del minHeap
-    Transaction *rootTransaction = maxFechaHeap.top();
-
-    // Accede a los datos de la transacción raíz
-    std::cout << "Root Transaction: ";
-    rootTransaction->printTransaction();
-    
-    return maxFechaHeap;
-}
-*/
-    // DoubleList<Transaction *> maxTxD() { return maxFecha.top(); }
-
-    // DoubleList<Transaction *> minTxD() { return minFecha.top(); }
-
-    // DoubleList<Transaction *> maxTxA() { return maxMonto.top(); }
-
-    // DoubleList<Transaction *> minTxA() { return minMonto.top(); }
 };
 
 

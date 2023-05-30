@@ -52,6 +52,8 @@ public:
     // Elimina todos los elementos de la lista
     virtual void clear() = 0;
 
+    virtual bool search(T) = 0;
+
     // Ordena los elementos de la lista
     virtual void sort() = 0;
 

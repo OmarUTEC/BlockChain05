@@ -1,4 +1,5 @@
 #include <sstream>
+#include "doubleList.h"
 using namespace std;
 
 const int maxColision = 3;
@@ -9,38 +10,31 @@ const int capacityDEF = 10;
 template<typename TK, typename TV>
 class ChainHash {
 private:    
-    struct HashEntry {
+    struct Entry {
         TK key;
         TV value;
-        HashEntry* next = nullptr;   // puntero al siguiente HashEntry en caso de colisión
-
-        HashEntry(const TK& key, TV value): key(key), value(value) {}
-
-        HashEntry*& operator=(HashEntry* other) {
-            HashEntry* temp = other;
-            while (temp->next != nullptr) {
-                this->key = temp->key;
-                this->value = temp->value;
-                temp = temp->next;
-            }
-        }
+        Entry(const TK& key, TV value): key(key), value(value) {}
+        ~Entry() = default;
     };
 
+public:
+    typedef DoubleList<Entry*> HashList;
+    typedef NodeList<Entry*> EntryNode;
+
 private:
-    HashEntry** buckets;
+    HashList **buckets;
     int capacity;              //tamanio del buckets
     int size = 0;              //cantidad de elementos totales
 
 public:
-    ChainHash() {
-        this->capacity = capacityDEF; 
-        buckets = new HashEntry*[capacityDEF];
+
+    ChainHash(): capacity(capacityDEF) {
+        buckets = new HashList*[capacityDEF];
     };
     ~ChainHash() = default;
     
-    ChainHash(int capacity) {
-        this->capacity = capacity; 
-        buckets = new HashEntry*[capacity];
+    ChainHash(int capacity): capacity(capacity) {
+        buckets = new HashList*[capacity];
 	}
 
     size_t hashFunction(TK key) {
@@ -58,31 +52,17 @@ public:
 
     void set(TK key, TV value){
         size_t index = hashFunction(key);
-        HashEntry* entry = new HashEntry(key, value);
-
-        if (buckets[index] != nullptr) {
-            HashEntry* current = buckets[index];
-            while (current->next != nullptr) {
-                // si ya existe el key, se finaliza
-                if (current->key == key)   return;
-                
-                current = current->next;
-            }
-            current->next = entry;
-        } else
-            buckets[index] = entry;
-
-        ++size;
+        buckets[index]->push_front(new Entry(key, value));
     }
 
     TV get(TK key){
         size_t index = hashFunction(key);
-        HashEntry* entry = buckets[index];
-        while (entry->next != nullptr) {
-            if (entry->key == key)
-                return entry->value;
-            
-            entry = entry->next;
+        EntryNode* nodetemp = buckets[index]->begin();
+        while (nodetemp != nullptr) {
+            if (nodetemp->data->key == key)
+                return nodetemp->data->value; 
+
+            nodetemp = nodetemp->next;
         }
         throw std::out_of_range("key unbound in hashtable");
     };
@@ -100,13 +80,7 @@ public:
     }
 
     int bucket_size(unsigned int pos) const {
-        HashEntry* temp = buckets[pos];
-        int count = 0;
-        while (temp->next != nullptr) {;
-            temp = temp->next;
-            ++count;
-        }
-        return count;
+        buckets[pos]->size();
     };
 
 private:
@@ -116,16 +90,16 @@ private:
 
     void rehashing(){
         // Aumentar la capacidad del arreglo original
-        HashEntry** newbuckets = buckets;
+        HashList** newbuckets = buckets;
         delete[] buckets;
-        buckets = new HashEntry*[capacity*2];
+        buckets = new HashList*[capacity*2];
 
         // Insertar todos los elementos del arreglo original en el nuevo arreglo
-        for (HashEntry* entry : newbuckets) {
-            HashEntry* temp = entry;
+        for (HashList* entry : newbuckets) {
+            EntryNode* temp = entry->begin();
             while (temp != nullptr) {
-                temp = temp->next;
                 set(temp->key, temp->value);
+                temp = temp->next;
             }
         }
 

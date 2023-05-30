@@ -5,6 +5,7 @@
 #include "block.h"
 #include "../structures/node.h"
 #include "../structures/doubleList.h"
+#include "../structures/chainHash.h"
 
 using namespace std;
 
@@ -13,7 +14,9 @@ class BlockChain {
 
 private:
     DoubleList<Block *> chain;
-    ChainHash <std::string, NodeList<Block *> *> usersHash;
+    // Faltaria el btree;
+    ChainHash <std::string, Block*> usersHash;
+    int cantblocks;
     
 public:
  
@@ -40,7 +43,7 @@ public:
 };
 
 
-BlockChain::BlockChain(const string &users,const string &transacciones){
+BlockChain::BlockChain(const string &users,const string &transactions){
     string line;
     auto *file=new ifstream(users);
     getline(*file,line,'\n');
@@ -51,7 +54,7 @@ BlockChain::BlockChain(const string &users,const string &transacciones){
     }
     file->close();
 
-    file= new ifstream(transacciones);
+    file= new ifstream(transactions);
     getline(*file,line,'\n');
     string client,amount,place,date;
 
