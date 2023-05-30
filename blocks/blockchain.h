@@ -9,14 +9,15 @@
 
 using namespace std;
 
+typedef DoubleList<Block*> LBlocks;
+typedef ChainHash<string, Block*> hashBlock;
 
 class BlockChain {
-
 private:
-    DoubleList<Block *> chain;
-    // Faltaria el btree;
-    ChainHash <std::string, Block*> usersHash;
-    int cantblocks;
+    LBlocks* blocks = new LBlocks;                  // lista de bloques enlazados
+    // Faltaria el b+tree;
+    hashBlock* usersHash = new hashBlock;          // hashtable de par (usuario,bloque)
+    int cantblocks =0;                             // cantidad de bloques
     
 public:
  
@@ -28,7 +29,7 @@ public:
   BlockChain(const string &users,const string &transacciones); //Leo
   void createUser(const string &username, const string &password); //Leo
   bool searchUser(const string &username, const string &password); //Leo
-  void setTransaction(const string &username, const string &password, const string &place, float amount, const string &date); //Leo
+  void insertTransaction(const string &username, const string &password, const string &place, float amount, const string &date); //Leo
   bool searchData(const string &username, const string &password, const string &place, float amount, const string &date); //Leo
   void theTransactions(const std::string &username, const std::string &password); //Noemi
   void date(const std::string &username, const std::string &password); //Noemi
@@ -43,23 +44,23 @@ public:
 };
 
 
-BlockChain::BlockChain(const string &users,const string &transactions){
+BlockChain::BlockChain(const string &fileUsers, const string &fileTransactions){
     string line;
-    auto *file=new ifstream(users);
-    getline(*file,line,'\n');
+    auto *file = new ifstream(fileUsers);
+    getline(*file, line,'\n');
+    
     string username,password;
-
-    while((*file)>>username>>password){
+    while((*file) >> username >> password){
         createUser(username,password);
     }
     file->close();
 
-    file= new ifstream(transactions);
+    file = new ifstream(fileTransactions);
     getline(*file,line,'\n');
-    string client,amount,place,date;
-
-    while((*file)>>client>>password>>date>>place>>amount){
-        setTransaction(client,password,place,stof(amount),date);
+    
+    string amount,place,date;
+    while((*file) >> username >> password >> date >> place >> amount){
+        insertTransaction(username,password,place,stof(amount),date);
     }
     file->close();
 }
@@ -71,94 +72,73 @@ void BlockChain::init_blockchain() {
 
 
 void BlockChain::createUser(const string &username, const string &password){
-    string hash = username + password;
-    if(chain.is_empty()){
-        auto *block = new Block();
-        auto *node = new NodeList<Block *>(block);
-        chain.push_back(block);
-        usersHash.set(hash,chain.begin());
-    }
-    else{
-        chain.push_back(new Block{chain.size(),chain.end()->data->hash});
-        usersHash.set(hash,chain.end());
-    }
+    string hash = username + "&&" + password;
+    Block* block = (cantblocks == 0)? new Block :
+        new Block(cantblocks, blocks->end()->data->getHash());
+    
+    blocks->push_back(block);
+    usersHash->set(hash, block);
+    ++cantblocks;
 }
 
 bool BlockChain::searchUser(const string &username, const string &password){
-    string hash = username + password;
-    return usersHash.search(hash);
+    string hash = username + "&&" + password;
+    return usersHash->search(hash);
 }
 
-void BlockChain::setTransaction(const string &username, const string &password, const string &place, float amount, const string &date){
-    string hash = username + password;
-    auto *transaccion = new Transaction(username,place, date, amount);
-    usersHash.get(hash)->data->insert(transaccion);
-    usersHash.get(hash)->data->hash = usersHash.get(hash)->data->calculateHash();
-
-    auto it = usersHash.get(hash);
-    while (it != nullptr){
-        it->data->previousHash = it->prev->data->hash;
-        it->data->hash = it->data->calculateHash();
-        it = it->next;
-    }
+void BlockChain::insertTransaction(const string &username, const string &password, const string &place, const float amount, const string &date){
+    string hash = username + "&&" + password;
+    Transaction *transaccion = new Transaction(username,place, date, amount);
+    try {
+        usersHash->get(hash)->insert(transaccion);
+    } catch (string e) {  return;  }
 }
 
+/*
 bool BlockChain::searchData(const string &username, const string &password, const string &place, float amount, const string &date){
-    string hash=username+password;
+    string hash = username + "&&" + password;
     auto *transaccion= new Transaction(username, place, date,amount);
     stringstream key;
     key << *(transaccion);
     return usersHash.get(hash)->data->data_hash.search(key.str());
-}
+}*/
 
 void BlockChain::theTransactions(const std::string &username, const std::string &password){
-    string hash = username + password;
-    DoubleList<Transaction *> transactions = this->usersHash.get(hash)->data->data;
-    loadFile(&transactions);
-}
-
-void BlockChain::date(const std::string &username, const std::string &password){
-    string hash = username + password;
-    DoubleList<Transaction *> transactions = this->usersHash.get(hash)->data;
-    loadFile(&transactions);
-}
-
-void BlockChain::Amount(const std::string &username, const std::string &password){
-    string hash = username + password;
-    DoubleList<Transaction *> transactions = this->usersHash.get(hash)->data;
-    loadFile(&transactions);
+    string hash = username + "&&" + password;
+    Block::TxList* userTransactions = usersHash->get(hash)->getTransactions();
+    loadFile(&userTransactions);
 }
 
 void BlockChain::MaxDate(const std::string &username, const std::string &password){
-    string hash = username + password;
-    DoubleList<Transaction *> transactions = this->usersHash.get(hash)->maxFecha;
+    string hash = username + "&&" + password;
+    Transaction * transactions = usersHash->get(hash)->maxDate();
     loadFile(&transactions);
-
 }
 
 void BlockChain::MinDate(const std::string &username, const std::string &password){
-    string hash = username + password;
-    DoubleList<Transaction *> transactions = this->usersHash.get(hash)->minFecha;
+    string hash = username + "&&" + password;
+    Transaction * transactions = usersHash->get(hash)->minDate();
     loadFile(&transactions);
 }
 
 void BlockChain::MaxAmount(const std::string &username, const std::string &password){
-    string hash = username + password;
-    DoubleList<Transaction *> transactions = this->usersHash.get(hash)->maxMonto;
+    string hash = username + "&&" + password;
+    Transaction * transactions = usersHash->get(hash)->maxAmount();
     loadFile(&transactions);
 }
 
 void BlockChain::MinAmount(const std::string &username, const std::string &password){
-    string hash = username + password;
-    DoubleList<Transaction *> transactions = this->usersHash.get(hash)->minMonto;
+    string hash = username + "&&" + password;
+    Transaction * transactions = usersHash->get(hash)->minAmount();
     loadFile(&transactions);
 }
 
 void BlockChain::cascade(const string &username, const string &password){
-    string hash = username + password;
-    DoubleList<Transaction *> transactions = this->usersHash.get(hash)->data;
+    string hash = username + "&&" + password;
+    Transaction * transactions = this->usersHash.get(hash)->data;
     loadFile(&transactions);
 }
+
 
 void BlockChain::loadFile(DoubleList<Transaction*>* doubleList, const std::string& path = "./assets/data/datos.txt") {
     std::ifstream file(path);

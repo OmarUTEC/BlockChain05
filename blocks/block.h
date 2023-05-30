@@ -24,7 +24,7 @@ private:
     int index;                          // Índice del bloque en la cadena
     std::string timestamp;              // Marca de tiempo en la que se crea el bloque
     
-    TxList* data = new TxList;
+    TxList* list_data = new TxList;
     TxHeap* minheap_amount = new TxHeap(TxHeap::MIN_HEAP);
     TxHeap* maxheap_amount = new TxHeap;
     TxHeap* minheap_date = new TxHeap(TxHeap::MIN_HEAP);
@@ -47,12 +47,6 @@ private:
 
     ~Block() = default;
 
-    // constructor a partir de un registro de transacciones
-    Block(string prevHash, const string& transaction) {
-        this->timestamp = to_string(time(0));
-        this->hash = calculateHash();
-        mineBlock();
-    }
 
     // constructor copia a partir de otro bloque
     Block(const Block &other) {
@@ -105,16 +99,26 @@ private:
 
     // Inserta una nueva transaccion
     void insert(Transaction* transaction) {
-        data->push_back(transaction);
+        list_data->push_back(transaction);
         minheap_amount->push(transaction);
         maxheap_amount->push(transaction);
         minheap_date->push(transaction);
         maxheap_date->push(transaction);
+        hash = calculateHash();
+        mineBlock();
     }
+
+    string getHash() {
+        return hash;
+    }
+
+    auto getTransactions() {
+        return list_data;
+    } 
 
     // Valida si se encuentra la transaccion 
     bool search(Transaction* transaction) {
-        return data->search(transaction);
+        return list_data->search(transaction);
     }
 
     // -- La transaccion con mayor monto
@@ -138,15 +142,10 @@ private:
     }
 
 
-
     DoubleList<Transaction*> rangeDate(string date1, string date2); 
-        // para la segunda entrega
-    
 
     DoubleList<Transaction*> rangeAmount(float amount1, float amount2); 
-        // para la segunda entrega
     
-
 };
 
 

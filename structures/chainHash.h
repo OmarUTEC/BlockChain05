@@ -80,7 +80,7 @@ public:
     }
 
     int bucket_size(unsigned int pos) const {
-        buckets[pos]->size();
+        return buckets[pos]->size();
     };
 
 private:
