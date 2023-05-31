@@ -1,11 +1,11 @@
 <h1 align="center">BlockChain05</h1>
 
 ## Integrantes
-### Integrante1: Tovar Tolentino, Mariel
-### Integrante2: Isidro Salazar, Leonardo
-### Integrante3: Huarino Anchillo, Noemi
-### Integrante4: Sandoval Huamani, Adrian
-### Integrante5: Chavarria Humareda, Omar
+* Integrante1: Tovar Tolentino, Mariel
+* Integrante2: Isidro Salazar, Leonardo
+* Integrante3: Huarino Anchillo, Noemi
+* Integrante4: Sandoval Huamani, Adrian
+* Integrante5: Chavarria Humareda, Omar
 
 <a name="readme-top"></a>
 <details open>
@@ -26,7 +26,6 @@
         <li><a href="#proof-of-work">Proof of work</a></li>
         <li><a href="#análisis-algorítmico">Análisis algorítmico</a></li>
         <li><a href="#interfaz-gráfica">Interfaz gráfica</a></li>
-        <li><a href="#diagrama-de-clases">Diagrama de clases</a></li>
       </ul>
     </a></li>
     <li><a href="#referencias-bibliográficas">Referencias bibliográficas</a></li>
@@ -62,17 +61,22 @@ Es un algoritmo de hash criptográfico ampliamente utilizado que produce una hue
 El dominio transaccional que hemos escogido es : Retiros de dinero (cliente, lugar, monto, fecha). 
 
 ### Importancia del Blockchain
+ 
+La importancia de blockchain radica en su capacidad para proporcionar seguridad en las transacciones a través de su registro distribuido en bloques. Cada bloque está enlazado con el bloque anterior mediante una función criptográfica, lo que garantiza la integridad de la cadena. Esto significa que, en caso de un intento de modificación o ataque, todos los bloques posteriores se vuelven inaccesibles o inválidos, lo que proporciona una mayor protección contra la manipulación de datos.
 
 <hr>
 
 ## Funcionalidad de la aplicación
--
 
 <h1 align="center">Estructuras de datos</h1>
 
-![](assets/Heap_min_max.png)
+![](assets/estructuraDeDatos.png) 
 
-- Heap:
+## Heap
+
+1. *Priorización de transacciones*: Si deseas procesar las transacciones de retiro de dinero en un orden específico, puedes utilizar un heap para mantener un orden de prioridad. Por ejemplo, si tienes transacciones urgentes que requieren un procesamiento rápido, puedes asignarles una mayor prioridad y colocarlas en la parte superior del heap. De esta manera, puedes garantizar que las transacciones más importantes se procesen primero.
+
+2. *Gestión de límites de retiro*: Si tienes límites de retiro establecidos para cada cliente, un heap puede ayudarte a garantizar que se cumplan esos límites. Puedes mantener un heap de transacciones pendientes, ordenadas por la cantidad de dinero a retirar. Al procesar cada transacción, verificas si el retiro excede el límite establecido para ese cliente. Si es así, puedes rechazar la transacción o tomar alguna otra acción según tus requisitos.
 La hemos implementado para usar el maxHeap para el máximo valor y el minHeap para el mínimo valor de los datos ingresados.
 
 ## DoubleList (Lista doblemente enlazada)
@@ -97,15 +101,11 @@ Escenarios donde se puede utilizar **doublelist**:
 
 3. *Detección de transacciones duplicadas*: La tabla hash puede ayudarte a evitar la inserción de transacciones duplicadas de retiro de dinero. Puedes utilizar la función de hash para generar una clave única para cada transacción y verificar si ya existe una transacción con la misma clave en la tabla hash. Esto te permitirá evitar la duplicación de transacciones y mantener la integridad de los datos.
 
-## Heap
-
-1. *Priorización de transacciones*: Si deseas procesar las transacciones de retiro de dinero en un orden específico, puedes utilizar un heap para mantener un orden de prioridad. Por ejemplo, si tienes transacciones urgentes que requieren un procesamiento rápido, puedes asignarles una mayor prioridad y colocarlas en la parte superior del heap. De esta manera, puedes garantizar que las transacciones más importantes se procesen primero.
-
-2. *Gestión de límites de retiro*: Si tienes límites de retiro establecidos para cada cliente, un heap puede ayudarte a garantizar que se cumplan esos límites. Puedes mantener un heap de transacciones pendientes, ordenadas por la cantidad de dinero a retirar. Al procesar cada transacción, verificas si el retiro excede el límite establecido para ese cliente. Si es así, puedes rechazar la transacción o tomar alguna otra acción según tus requisitos.
-
 ### Proof of Work
 
 Es un algoritmo de consenso permite verificar si quien contribuye al blockchain lo hace de forma legítima o está incurriendo en fraude. Permite la verificación, evitar ataques mediante el 51% y cualquier mecanismo que permita mantener al correcto crecimiento del blockchain.
+
+El proof of work que implementamos es una verificación en la cual el número de ceros al principio de la clave hash es igual a 4, y mientras esta condición no se cumpla va a seguir generando claves hash.
 
 ### Análisis algorítmico
 
@@ -146,7 +146,9 @@ Descarga las transacciones del blockchain en un archivo de texto en la ubicació
 
 ### Interfaz gráfica
 
-### Diagrama de clases
+- Se está trabajando con SFML.
+- Interfaz gráfica en proceso
+
 
 <hr>
 
@@ -177,8 +179,22 @@ Descarga las transacciones del blockchain en un archivo de texto en la ubicació
 
 ## Referencias bibliográficas
 
-Moreno, M. V. (2022). Blockchain y algoritmo de consenso Proof of Work. *MoleQla: revista de Ciencias de la Universidad Pablo de Olavide, (46), 14.* https://dialnet.unirioja.es/servlet/articulo?codigo=8651237
+[OpenSSL](https://www.openssl.org/)
 
+[BlockChain Demo](https://andersbrownworth.com/blockchain/)
+
+[Generación de datos ficticios](https://generatedata.com/)
+
+**Para el Proof of work se investigó en las siguiente páginas web:**
+
+https://academy.bit2me.com/que-es-proof-of-work-pow/
+
+https://www.iebschool.com/blog/proof-of-work-blockchain-tecnologia/
+
+https://www.profesionalreview.com/2021/07/31/que-es-proof-of-work/
+
+Moreno, M. V. (2022). Blockchain y algoritmo de consenso Proof of Work. *MoleQla: revista de Ciencias de la Universidad Pablo de Olavide, (46), 14.* https://dialnet.unirioja.es/servlet/articulo?codigo=8651237
+    
 <hr>
 
 ## Anexos
