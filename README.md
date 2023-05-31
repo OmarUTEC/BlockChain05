@@ -68,7 +68,7 @@ La importancia de blockchain radica en su capacidad para proporcionar seguridad 
 
 ## Funcionalidad de la aplicación
 
-<h1 align="center">Estructuras de datos</h1>
+### Estructuras de datos utilizadas
 
 ![](assets/estructuraDeDatos.png) 
 
