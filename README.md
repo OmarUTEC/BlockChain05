@@ -55,7 +55,9 @@ Es una cadena de bloques descentralizada de registro de datos que utiliza una re
 
 Es un algoritmo de hash criptográfico ampliamente utilizado que produce una huella digital de 256 bits(32 bytes) única para cualquier dato dado, lo que garantiza la integridad y seguridad de la información. Ofrece un mayor nivel de seguridad que MD5 y SHA-1 (versiones anteriores) y se considera seguro para su uso en la mayoría de los casos.
 
-![](assets/SHA-256.png)
+<div align="center">
+    <img src="assets/SHA-256.png" width="algo">
+</div><br>
 
 ### Descripción
 El dominio transaccional que hemos escogido es : Retiros de dinero (cliente, lugar, monto, fecha). 
@@ -70,9 +72,10 @@ La importancia de blockchain radica en su capacidad para proporcionar seguridad 
 
 ### Estructuras de datos utilizadas
 
-![](assets/estructuraDeDatos.png) 
-
-## Heap
+<div align="center">
+    <img src="assets/estructuraDeDatos.png" width="700">
+</div><br>
+- ### Heap
 
 <div align="center">
     <img src="assets/heap.jpeg" width="algo">
@@ -83,7 +86,7 @@ La importancia de blockchain radica en su capacidad para proporcionar seguridad 
 2. *Gestión de límites de retiro*: Si tienes límites de retiro establecidos para cada cliente, un heap puede ayudarte a garantizar que se cumplan esos límites. Puedes mantener un heap de transacciones pendientes, ordenadas por la cantidad de dinero a retirar. Al procesar cada transacción, verificas si el retiro excede el límite establecido para ese cliente. Si es así, puedes rechazar la transacción o tomar alguna otra acción según tus requisitos.
 La hemos implementado para usar el maxHeap para el máximo valor y el minHeap para el mínimo valor de los datos ingresados.
 
-## DoubleList (Lista doblemente enlazada)
+- ### DoubleList (Lista doblemente enlazada)
 
 <div align="center">
     <img src="assets/doblelist.png" width="algo">
@@ -102,7 +105,7 @@ Escenarios donde se puede utilizar **doublelist**:
 
 4. *Recorrido bidireccional de la lista*: Al ser una lista doblemente enlazada, puedes recorrerla tanto hacia adelante como hacia atrás. Esto puede ser útil si necesitas realizar operaciones de búsqueda o análisis en las transacciones en función de diferentes criterios, como buscar transacciones de un cliente específico o realizar un análisis histórico de los retiros.  
 
-## Hash
+- ### Hash
 
 <div align="center">
     <img src="assets/hash.jpeg" width="algo">
@@ -114,11 +117,15 @@ Escenarios donde se puede utilizar **doublelist**:
 
 3. *Detección de transacciones duplicadas*: La tabla hash puede ayudarte a evitar la inserción de transacciones duplicadas de retiro de dinero. Puedes utilizar la función de hash para generar una clave única para cada transacción y verificar si ya existe una transacción con la misma clave en la tabla hash. Esto te permitirá evitar la duplicación de transacciones y mantener la integridad de los datos.
 
+<hr>
+
 ### Proof of Work
 
 Es un algoritmo de consenso permite verificar si quien contribuye al blockchain lo hace de forma legítima o está incurriendo en fraude. Permite la verificación, evitar ataques mediante el 51% y cualquier mecanismo que permita mantener al correcto crecimiento del blockchain.
 
 El proof of work que implementamos es una verificación en la cual el número de ceros al principio de la clave hash es igual a 4, y mientras esta condición no se cumpla va a seguir generando claves hash.
+
+<hr>
 
 ### Análisis algorítmico
 
@@ -157,6 +164,7 @@ Obtiene la transacción con el monto más bajo de un usuario específico en el b
 
 Descarga las transacciones del blockchain en un archivo de texto en la ubicación especificada. En ella recorre todos los bloques existentes en el BlockChain y muestra la información de cada uno. **$\mathcal{O}(n)$**
 
+<hr>
 
 ### Interfaz gráfica
 
