@@ -33,7 +33,6 @@
       Anexos
     <ul>
         <li><a href="#participación-grupal">Participación grupal</a></li>
-        <li><a href="#convenciones-y-documentado">Convenciones y documentado</a></li>
       </ul>
     </a></li>
   </ul>
@@ -198,6 +197,9 @@ Descarga las transacciones del blockchain en un archivo de texto en la ubicació
 
 ## Conclusiones
 
+- El blockchain nos ha ayudado a poder proteger mejor nuestra estructura de datos y de esa manera darle confianza a nuestro cliente para con la integridad de sus datos y demás. 
+- Las estructuras de datos como **heap, chain hash y double list** son fundamentales en **blockchain** debido a su importancia en la eficiencia y seguridad del sistema. El heap permite una gestión eficiente de las transacciones y bloques, asegurando un ordenamiento óptimo. El chain hash proporciona una forma rápida de acceder a los bloques anteriores y verificar la integridad de la cadena. El double list permite un acceso rápido y eficiente a los datos, facilitando la validación y el seguimiento de transacciones en la cadena de bloques. En resumen, estas estructuras de datos mejoran la velocidad, la seguridad y la escalabilidad del sistema blockchain.
+
 <hr>
 
 ## Referencias bibliográficas
@@ -234,6 +236,5 @@ Moreno, M. V. (2022). Blockchain y algoritmo de consenso Proof of Work. *MoleQla
 
 * **transaction.h** y demás fué concluida por todos los integrantes.
 
-### Convenciones y documentado
 
 <hr>
