@@ -141,6 +141,7 @@ Obtiene la transacción con el monto más alto de un usuario específico en el b
 Obtiene la transacción con el monto más bajo de un usuario específico en el blockchain.Se obtiene por el `top` del Min-Heap de transacciones **$\mathcal{O}(1)$**
 
 - `BlockChain::downloadFile(const std::string& path)`
+
 Descarga las transacciones del blockchain en un archivo de texto en la ubicación especificada. En ella recorre todos los bloques existentes en el BlockChain y muestra la información de cada uno. **$\mathcal{O}(n)$**
 
 
