@@ -26,7 +26,6 @@
         <li><a href="#proof-of-work">Proof of work</a></li>
         <li><a href="#análisis-algorítmico">Análisis algorítmico</a></li>
         <li><a href="#interfaz-gráfica">Interfaz gráfica</a></li>
-        <li><a href="#diagrama-de-clases">Diagrama de clases</a></li>
       </ul>
     </a></li>
     <li><a href="#referencias-bibliográficas">Referencias bibliográficas</a></li>
@@ -71,7 +70,7 @@ La importancia de blockchain radica en su capacidad para proporcionar seguridad 
 
 <h1 align="center">Estructuras de datos</h1>
 
-![](assets/estructuraDeDatos.png)
+![](assets/estructuraDeDatos.png) 
 
 ## Heap
 
@@ -153,9 +152,12 @@ El proof of work que implementamos es una verificación en la cual el número de
 
 **Para el Proof of work se investigó en las siguiente páginas web:**
 
-https://academy.bit2me.com/que-es-proof-of-work-pow/)
+https://academy.bit2me.com/que-es-proof-of-work-pow/
+
 https://www.iebschool.com/blog/proof-of-work-blockchain-tecnologia/
+
 https://www.profesionalreview.com/2021/07/31/que-es-proof-of-work/
+
 Moreno, M. V. (2022). Blockchain y algoritmo de consenso Proof of Work. *MoleQla: revista de Ciencias de la Universidad Pablo de Olavide, (46), 14.* https://dialnet.unirioja.es/servlet/articulo?codigo=8651237
     
 <hr>
