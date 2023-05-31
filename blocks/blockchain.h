@@ -22,7 +22,9 @@ private:
 public:
  
   BlockChain() = default;
-  ~BlockChain() = default;
+  ~BlockChain() {
+      delete blocks, usersHash;
+  };
 
   void init_blockchain();
 

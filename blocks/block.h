@@ -46,7 +46,11 @@ private:
         mineBlock();
     }
 
-    ~Block() = default;
+    ~Block() {
+        delete list_data;
+        delete minheap_amount, minheap_date;
+        delete maxheap_amount, maxheap_date;
+    };
 
 
     // constructor copia a partir de otro bloque
