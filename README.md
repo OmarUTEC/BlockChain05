@@ -234,4 +234,7 @@ Moreno, M. V. (2022). Blockchain y algoritmo de consenso Proof of Work. *MoleQla
 | OMAR CHAVARRIA HUMAREDA    | 202120631   | Parte del README.md + Carpeta: structures + funciones del block.h   | 100% |
 | ADRIAN SANDOVAL HUAMANI    | 202120522   | Parte del README.md + Investigación sobre la Interfaz + funciones del block.h   | 100% |
 
+* **transaction.h** y demás fué concluida por todos los integrantes.
+
+
 <hr>
