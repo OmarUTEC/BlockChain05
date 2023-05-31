@@ -75,6 +75,7 @@ La importancia de blockchain radica en su capacidad para proporcionar seguridad 
 <div align="center">
     <img src="assets/estructuraDatos.png" width="700">
 </div><br>
+
 - ### Heap
 
 <div align="center">
