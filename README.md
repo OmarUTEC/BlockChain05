@@ -126,19 +126,19 @@ Esta función crea un nuevo bloque que pertenecerá al usuario. Internamente rea
 
 - `BlockChain::MaxDate(const std::string &username, const std::string &password)`
 
-Obtiene la transacción con la fecha más reciente de un usuario específico en el blockchain. Se obtiene por el `top` del Max-Heap de transacciones **$\mathcal{O}(1)$**
+Obtiene la transacción con la fecha más reciente de un usuario específico en el blockchain. Se obtiene por el `top` del Max-Heap de transacciones por fecha **$\mathcal{O}(1)$**
 
 - `BlockChain::MinDate(const std::string &username, const std::string &password)`
 
-Obtiene la transacción con la fecha más antigua de un usuario específico en el blockchain. Se obtiene por el `top` del Min-Heap de transacciones **$\mathcal{O}(1)$**
+Obtiene la transacción con la fecha más antigua de un usuario específico en el blockchain. Se obtiene por el `top` del Min-Heap de transacciones por fecha **$\mathcal{O}(1)$**
 
 - `BlockChain::MaxAmount(const std::string &username, const std::string &password)`
 
-Obtiene la transacción con el monto más alto de un usuario específico en el blockchain. Se obtiene por el `top` del Max-Heap de transacciones **$\mathcal{O}(1)$**
+Obtiene la transacción con el monto más alto de un usuario específico en el blockchain. Se obtiene por el `top` del Max-Heap de transacciones por monto **$\mathcal{O}(1)$**
 
 - `BlockChain::MinAmount(const std::string &username, const std::string &password)`
 
-Obtiene la transacción con el monto más bajo de un usuario específico en el blockchain.Se obtiene por el `top` del Min-Heap de transacciones **$\mathcal{O}(1)$**
+Obtiene la transacción con el monto más bajo de un usuario específico en el blockchain.Se obtiene por el `top` del Min-Heap de transacciones por monto **$\mathcal{O}(1)$**
 
 - `BlockChain::downloadFile(const std::string& path)`
 
