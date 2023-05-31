@@ -62,7 +62,6 @@ Es un algoritmo de hash criptográfico ampliamente utilizado que produce una hue
 El dominio transaccional que hemos escogido es : Retiros de dinero (cliente, lugar, monto, fecha). 
 
 ### Importancia del Blockchain
--
 
 <hr>
 
@@ -105,9 +104,45 @@ Escenarios donde se puede utilizar **doublelist**:
 2. *Gestión de límites de retiro*: Si tienes límites de retiro establecidos para cada cliente, un heap puede ayudarte a garantizar que se cumplan esos límites. Puedes mantener un heap de transacciones pendientes, ordenadas por la cantidad de dinero a retirar. Al procesar cada transacción, verificas si el retiro excede el límite establecido para ese cliente. Si es así, puedes rechazar la transacción o tomar alguna otra acción según tus requisitos.
 
 ### Proof of Work
+
 Es un algoritmo de consenso permite verificar si quien contribuye al blockchain lo hace de forma legítima o está incurriendo en fraude. Permite la verificación, evitar ataques mediante el 51% y cualquier mecanismo que permita mantener al correcto crecimiento del blockchain.
 
 ### Análisis algorítmico
+
+Estas son los métodos implementados actualmente en el BlockChain:
+
+- `BlockChain::searchUser(const string& username, const string& password)` 
+
+Esta función valida si existe el bloque correspondiente al usuario y su contraseña (previamente verificada). En ella se busca solo por el DoubleList, complejidad **$\mathcal{O}(n)$**(proximamente se reducirá a **$\mathcal{O}(log \ n)$** a través de un árbol BST o Btree)
+
+ - `BlockChain::insertTransaction()`:
+
+Esta función inserta una nueva transacción en el Blockchain. En ella se insertan internamente en las estructuras Heap **$\mathcal{O}(log \ n)$** y DoubleList **$\mathcal{O}(1)$**.
+
+- `BlockChain::createUser(const string &username, const string &password, float amount, const string &date)`
+
+Esta función crea un nuevo bloque que pertenecerá al usuario. Internamente realiza un push del nuevo bloque en el DoubleList **$\mathcal{O}(1)$** y en el HasTable **$\mathcal{O}(1)$**.
+
+
+- `BlockChain::MaxDate(const std::string &username, const std::string &password)`
+
+Obtiene la transacción con la fecha más reciente de un usuario específico en el blockchain. Se obtiene por el `top` del Max-Heap de transacciones **$\mathcal{O}(1)$**
+
+- `BlockChain::MinDate(const std::string &username, const std::string &password)`
+
+Obtiene la transacción con la fecha más antigua de un usuario específico en el blockchain. Se obtiene por el `top` del Min-Heap de transacciones **$\mathcal{O}(1)$**
+
+- `BlockChain::MaxAmount(const std::string &username, const std::string &password)`
+
+Obtiene la transacción con el monto más alto de un usuario específico en el blockchain. Se obtiene por el `top` del Max-Heap de transacciones **$\mathcal{O}(1)$**
+
+- `BlockChain::MinAmount(const std::string &username, const std::string &password)`
+
+Obtiene la transacción con el monto más bajo de un usuario específico en el blockchain.Se obtiene por el `top` del Min-Heap de transacciones **$\mathcal{O}(1)$**
+
+- `BlockChain::downloadFile(const std::string& path)`
+Descarga las transacciones del blockchain en un archivo de texto en la ubicación especificada. En ella recorre todos los bloques existentes en el BlockChain y muestra la información de cada uno. **$\mathcal{O}(n)$**
+
 
 ### Interfaz gráfica
 

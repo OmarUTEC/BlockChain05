@@ -105,7 +105,7 @@ private:
         maxheap_amount->push(transaction);
         minheap_date->push(transaction);
         maxheap_date->push(transaction);
-        hash = calculateHash();
+        this->hash = calculateHash();
         mineBlock();
     }
 
@@ -113,14 +113,14 @@ private:
         return hash;
     }
 
-    auto getTransactions() {
+    TxList* getTransactions() {
         return list_data;
     } 
 
     // Valida si se encuentra la transaccion 
     bool search(Transaction* transaction) {
         return list_data->search(transaction);
-    }
+    } 
 
     // -- La transaccion con mayor monto
     Transaction* maxAmount() {

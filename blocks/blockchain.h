@@ -66,7 +66,7 @@ BlockChain::BlockChain(const string &fileUsers, const string &fileTransactions){
 
 
 void BlockChain::init_blockchain() {
-
+    // recrea la interfaz en consola del blockchain
 }
 
 
@@ -76,7 +76,7 @@ void BlockChain::createUser(const string &username, const string &password){
         new Block(cantblocks, blocks->end()->data->getHash());
     
     blocks->push_back(block);
-    usersHash->set(hash, block);
+    usersHash->set(hash, block);        
     ++cantblocks;
 }
 
@@ -102,11 +102,11 @@ bool BlockChain::searchData(const string &username, const string &password, cons
     return usersHash.get(hash)->data->data_hash.search(key.str());
 }*/
 
-void BlockChain::theTransactions(const string &username, const string &password){
+/*void BlockChain::theTransactions(const string &username, const string &password){
     string hash = username + "&&" + password;
     Block::TxList* userTransactions = usersHash->get(hash)->getTransactions();
     //downloadFile(&userTransactions);
-}
+}*/
 
 void BlockChain::MaxDate(const string &username, const string &password){
     string hash = username + "&&" + password;
@@ -142,8 +142,8 @@ void BlockChain::cascade(const string &username, const string &password){
 
 void BlockChain::downloadFile(const std::string& path = "./assets/data/datos.txt") {
     std::ofstream* file = new ofstream(path);
-    for (int i=0; i<blocks->size(); i++) {
-        auto tx = usersHash->get_bucket(i)->data->value->getTransactions();
+    for (int i=0; i < cantblocks; i++) {
+        Block::TxList* tx = usersHash->get_bucket(i)->data->value->getTransactions();
         // file << tx->nombre << " " << tx->string2 << " " << tx->amount << " " << tx->date << std::endl;
     }
     // out.close();
