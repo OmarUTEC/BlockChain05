@@ -74,12 +74,20 @@ La importancia de blockchain radica en su capacidad para proporcionar seguridad 
 
 ## Heap
 
+<div align="center">
+    <img src="assets/heap.jpeg" width="algo">
+</div><br>
+
 1. *Priorización de transacciones*: Si deseas procesar las transacciones de retiro de dinero en un orden específico, puedes utilizar un heap para mantener un orden de prioridad. Por ejemplo, si tienes transacciones urgentes que requieren un procesamiento rápido, puedes asignarles una mayor prioridad y colocarlas en la parte superior del heap. De esta manera, puedes garantizar que las transacciones más importantes se procesen primero.
 
 2. *Gestión de límites de retiro*: Si tienes límites de retiro establecidos para cada cliente, un heap puede ayudarte a garantizar que se cumplan esos límites. Puedes mantener un heap de transacciones pendientes, ordenadas por la cantidad de dinero a retirar. Al procesar cada transacción, verificas si el retiro excede el límite establecido para ese cliente. Si es así, puedes rechazar la transacción o tomar alguna otra acción según tus requisitos.
 La hemos implementado para usar el maxHeap para el máximo valor y el minHeap para el mínimo valor de los datos ingresados.
 
 ## DoubleList (Lista doblemente enlazada)
+
+<div align="center">
+    <img src="assets/doblelist.png" width="algo">
+</div><br>
 
 El uso de una lista doblemente enlazada (DoubleList) puede ser útil en varias partes de la implementación.
 
@@ -95,6 +103,11 @@ Escenarios donde se puede utilizar **doublelist**:
 4. *Recorrido bidireccional de la lista*: Al ser una lista doblemente enlazada, puedes recorrerla tanto hacia adelante como hacia atrás. Esto puede ser útil si necesitas realizar operaciones de búsqueda o análisis en las transacciones en función de diferentes criterios, como buscar transacciones de un cliente específico o realizar un análisis histórico de los retiros.  
 
 ## Hash
+
+<div align="center">
+    <img src="assets/hash.jpeg" width="algo">
+</div><br>
+
 1. *Almacenamiento eficiente de transacciones*: Puedes utilizar una tabla hash para almacenar las transacciones de retiro de dinero. Cada transacción puede tener un identificador único, como el número de transacción, y la tabla hash puede usar ese identificador como clave para acceder rápidamente a la transacción correspondiente. Esto te permitirá almacenar y recuperar las transacciones de forma eficiente sin tener que recorrer una lista o una estructura más compleja.
 
 2. *Búsqueda rápida de transacciones*: Si necesitas buscar transacciones de retiro de dinero según criterios específicos, como el número de cliente o la fecha, una tabla hash puede ser muy útil. Puedes utilizar diferentes campos de la transacción como claves en la tabla hash y realizar búsquedas rápidas basadas en esos campos. Por ejemplo, si quieres encontrar todas las transacciones de un cliente en particular, simplemente buscarías en la tabla hash utilizando el identificador del cliente como clave.
